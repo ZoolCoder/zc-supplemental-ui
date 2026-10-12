@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="{{or page.attributes.lang 'en'}}" data-theme="auto">
+{{zc-init}}<!DOCTYPE html>
+<html lang="{{@root.zc.lang}}" dir="{{@root.zc.dir}}" data-theme="auto">
 <head>
 {{> head}}
 </head>
 <body class="zc-docs{{#with page.attributes.role}} {{this}}{{/with}}">
-<a class="skip" href="#main">Skip to content</a>
+<a class="skip" href="#main">{{t "skip"}}</a>
 <div class="shell">
 <div class="scrim" data-scrim hidden></div>
 {{> side}}

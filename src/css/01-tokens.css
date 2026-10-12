@@ -4,7 +4,7 @@
    when chosen, or under data-theme="auto" when the system asks for it. */
 :root{
   --bg:#F4F7FC;--side:#FFFFFF;--surface:#FFFFFF;--raised:#F8FAFF;--pop:#FFFFFF;--thead:#F1F5FB;--subtle:#EEF2F8;--line:#DCE4F0;--line2:#B8C8DD;--field:#F8FAFC;
-  --fg:#131A27;--muted:#46566D;--dim:#63738A;
+  --fg:#131A27;--muted:#46566D;--dim:#5E6E85;
   --acc:#2563EB;--acc-hover:#1D4ED8;--acc-sub:#EAF2FF;--acc-line:#9DBEFF;--btn:#2563EB;--btn-top:#3B82F6;--btn-ink:#FFFFFF;
   --ok:#047857;--ok-sub:#D1FAE5;--warn:#92400E;--warn-sub:#FEF3C7;--bad:#BE123C;--bad-sub:#FFE4E6;
   --man:#5B21B6;--man-sub:#EDE9FE;--info:#1D4ED8;--info-sub:#DBEAFE;

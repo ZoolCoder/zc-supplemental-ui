@@ -1,7 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>{{{detag (or page.title 'Page not found')}}}{{#with site.title}} · {{this}}{{/with}}</title>
+<title>{{{detag (or page.title (t "notFound"))}}}{{#with site.title}} · {{this}}{{/with}}</title>
 {{#with page.canonicalUrl}}
 <link rel="canonical" href="{{{this}}}">
 {{/with}}
@@ -20,10 +20,16 @@
 {{#with page.canonicalUrl}}
 <meta property="og:url" content="{{{this}}}">
 {{/with}}
+<meta property="og:locale" content="{{@root.zc.lang}}">
 {{#with page.attributes.zc-og-image}}
 <meta property="og:image" content="{{{this}}}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 {{/with}}
+{{#each @root.zc.langs}}
+<link rel="alternate" hreflang="{{./lang}}" href="{{#if ./absoluteUrl}}{{{./absoluteUrl}}}{{else}}{{{relativize ./url}}}{{/if}}">
+{{/each}}
 {{#with (or antoraVersion site.antoraVersion)}}
 <meta name="generator" content="Antora {{this}}">
 {{/with}}

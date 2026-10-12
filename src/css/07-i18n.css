@@ -1,0 +1,29 @@
+/* 07 i18n: right-to-left pages and scripts that need their own type
+   settings. Most of the layout already uses logical properties, so this only
+   flips what has a direction of its own: gradients, the drawer, code. */
+
+/* code reads left to right in every language */
+.doc .listingblock>.content,.doc .literalblock>.content,.doc pre{direction:ltr;text-align:left}
+.doc :not(pre)>code{unicode-bidi:isolate}
+/* key names read left to right, "Ctrl K" and "⌘K" alike */
+kbd{direction:ltr;unicode-bidi:isolate}
+.doc .imageblock svg{direction:ltr}
+
+[dir=rtl] .docnav a.on{background:linear-gradient(270deg,var(--acc-sub),color-mix(in srgb,var(--acc-sub) 55%,transparent))}
+[dir=rtl] .doc .admonitionblock tr{background:linear-gradient(270deg,color-mix(in srgb,var(--tone-sub) 75%,transparent),color-mix(in srgb,var(--tone-sub) 30%,transparent))}
+[dir=rtl] .menu .seg button svg,[dir=rtl] .doc-meta svg{transform:none}
+@media (max-width:1000px){
+  [dir=rtl] .side{transform:translateX(102%)}
+  [dir=rtl] .shell.open .side{transform:none}
+}
+
+/* Arabic script: letter spacing breaks the joins between letters, and the
+   script needs a little more size and line height to read as easily. */
+:root:is(:lang(ar),:lang(fa),:lang(ur),:lang(ps)){
+  --sans:system-ui,-apple-system,"SF Arabic","Segoe UI","Noto Sans Arabic","Geeza Pro",Tahoma,sans-serif;
+}
+:is(:lang(ar),:lang(fa),:lang(ur),:lang(ps)) *{letter-spacing:0!important}
+:root:is(:lang(ar),:lang(fa),:lang(ur),:lang(ps)) body{font-size:16px;line-height:1.8}
+:root:is(:lang(ar),:lang(fa),:lang(ur),:lang(ps)) :is(.pg,.doc h2,.doc h3,.doc h4){line-height:1.45}
+:root:is(:lang(ar),:lang(fa),:lang(ur),:lang(ps)) .navh{font-size:11.5px}
+:root:is(:lang(ar),:lang(fa),:lang(ur),:lang(ps)) .doc .admonitionblock td.icon i::after{font-size:12px}

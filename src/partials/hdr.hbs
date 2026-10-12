@@ -1,31 +1,40 @@
 <header class="hdr">
-  <button class="iconbtn drawer" type="button" data-drawer aria-controls="zc-side" aria-expanded="false" aria-label="Open menu">{{{icon "menu"}}}</button>
+  <button class="iconbtn drawer" type="button" data-drawer aria-controls="zc-side" aria-expanded="false" aria-label="{{t "openMenu"}}">{{{icon "menu"}}}</button>
   <span class="hdr-brand">{{> brand}}</span>
 {{#if env.SITE_SEARCH_PROVIDER}}
   <div class="search" id="search-field" role="search">
     {{{icon "search"}}}
-    <input id="search-input" type="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off" spellcheck="false" aria-keyshortcuts="Control+K Meta+K /">
+    <input id="search-input" type="search" placeholder="{{t "search"}}" aria-label="{{t "search"}}" autocomplete="off" spellcheck="false" aria-keyshortcuts="Control+K Meta+K /">
     <kbd data-palkey>Ctrl K</kbd>
   </div>
 {{/if}}
   <span class="grow"></span>
+{{#if @root.zc.langs}}
+  <button class="hbtn lang" type="button" popovertarget="zc-langs" aria-haspopup="menu" aria-label="{{t "language"}}: {{@root.zc.current.name}}">{{{icon "globe"}}}<span class="lbl">{{@root.zc.current.name}}</span><span class="chev">{{{icon "chevron"}}}</span></button>
+  <div class="menu" id="zc-langs" popover role="menu" aria-label="{{t "language"}}">
+    <p class="menu-k">{{t "language"}}</p>
+{{#each @root.zc.langs}}
+    <a role="menuitemradio" aria-checked="{{#if ./current}}true{{else}}false{{/if}}"{{#if ./current}} class="on"{{/if}} href="{{{relativize ./url}}}" hreflang="{{./lang}}" data-lang-set="{{./lang}}"><span lang="{{./lang}}" dir="{{./dir}}">{{./name}}</span>{{#if ./current}}{{{icon "check"}}}{{/if}}</a>
+{{/each}}
+  </div>
+{{/if}}
 {{#with page.attributes.zc-pdf}}
-  <a class="btn hbtn" href="{{{@root.siteRootPath}}}/{{{this}}}" title="Download the whole guide as a PDF">{{{icon "download"}}}<span class="lbl">PDF</span></a>
+  <a class="btn hbtn" href="{{{@root.siteRootPath}}}/{{{this}}}" title="{{t "pdfTitle"}}">{{{icon "download"}}}<span class="lbl">PDF</span></a>
 {{/with}}
 {{#with page.attributes.zc-repo}}
-  <a class="btn hbtn" href="{{{this}}}" title="Source on GitHub">{{{icon "github"}}}<span class="lbl">GitHub</span></a>
+  <a class="btn hbtn" href="{{{this}}}" title="{{t "githubTitle"}}">{{{icon "github"}}}<span class="lbl">GitHub</span></a>
 {{/with}}
-  <button class="hbtn theme" type="button" popovertarget="zc-menu" aria-haspopup="menu" aria-label="Theme and shortcuts"><span class="t-light">{{{icon "sun"}}}</span><span class="t-dark">{{{icon "moon"}}}</span><span class="t-auto">{{{icon "monitor"}}}</span><span class="chev">{{{icon "chevron"}}}</span></button>
-  <div class="menu" id="zc-menu" popover role="menu" aria-label="Theme and shortcuts">
-    <p class="menu-k">Theme</p>
-    <div class="seg" role="group" aria-label="Theme">
-      <button type="button" role="menuitemradio" data-theme-set="light">{{{icon "sun"}}}<span>Light</span></button>
-      <button type="button" role="menuitemradio" data-theme-set="dark">{{{icon "moon"}}}<span>Dark</span></button>
-      <button type="button" role="menuitemradio" data-theme-set="auto" title="Follow the system setting">{{{icon "monitor"}}}<span>Auto</span></button>
+  <button class="hbtn theme" type="button" popovertarget="zc-menu" aria-haspopup="menu" aria-label="{{t "themeMenu"}}"><span class="t-light">{{{icon "sun"}}}</span><span class="t-dark">{{{icon "moon"}}}</span><span class="t-auto">{{{icon "monitor"}}}</span><span class="chev">{{{icon "chevron"}}}</span></button>
+  <div class="menu" id="zc-menu" popover role="menu" aria-label="{{t "themeMenu"}}">
+    <p class="menu-k">{{t "theme"}}</p>
+    <div class="seg" role="group" aria-label="{{t "theme"}}">
+      <button type="button" role="menuitemradio" data-theme-set="light">{{{icon "sun"}}}<span>{{t "light"}}</span></button>
+      <button type="button" role="menuitemradio" data-theme-set="dark">{{{icon "moon"}}}<span>{{t "dark"}}</span></button>
+      <button type="button" role="menuitemradio" data-theme-set="auto" title="{{t "autoTitle"}}">{{{icon "monitor"}}}<span>{{t "auto"}}</span></button>
     </div>
-    <button type="button" role="menuitem" data-keys>{{{icon "keyboard"}}}<span>Keyboard shortcuts</span><kbd>?</kbd></button>
+    <button type="button" role="menuitem" data-keys>{{{icon "keyboard"}}}<span>{{t "shortcuts"}}</span><kbd>?</kbd></button>
 {{#with page.attributes.zc-site}}
-    <a role="menuitem" href="{{{this}}}">{{{icon "globe"}}}<span>{{or @root.page.attributes.zc-site-name 'Website'}}</span>{{{icon "external"}}}</a>
+    <a role="menuitem" href="{{{this}}}">{{{icon "globe"}}}<span>{{or @root.page.attributes.zc-site-name (t "website")}}</span>{{{icon "external"}}}</a>
 {{/with}}
   </div>
 </header>

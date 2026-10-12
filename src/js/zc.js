@@ -6,12 +6,30 @@
 
   var root = document.documentElement
   var isMac = /Mac|iP(hone|ad|od)/.test(navigator.platform || navigator.userAgent)
+  var rtl = root.dir === 'rtl'
 
   function $ (sel, ctx) { return (ctx || document).querySelector(sel) }
   function $$ (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)) }
 
   function typing (el) {
     return el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))
+  }
+
+  // Interface strings in the page's language, written by the shell.
+  var S = { copy: 'Copy', copied: 'Copied', copyCode: 'Copy to clipboard', pressCopy: 'Press %s', noResults: 'No results for “%s”', otherLangs: [] }
+  try {
+    var given = JSON.parse(($('#zc-strings') || {}).textContent || '{}')
+    for (var k in given) S[k] = given[k]
+  } catch (e) { /* keep the English defaults */ }
+
+  function fill (text, value) { return text.replace('%s', value) }
+
+  // Shows a short confirmation on a button, then puts its label back.
+  function flash (button, label, text) {
+    var before = label.textContent
+    label.textContent = text
+    button.classList.add('on')
+    setTimeout(function () { label.textContent = before; button.classList.remove('on') }, 1600)
   }
 
   // ---------------------------------------------------------------- theme
@@ -79,6 +97,60 @@
     searchInput.select()
   }
 
+  var searchField = $('#search-field')
+  if (searchField && searchInput) searchResults(searchField)
+
+  function searchResults (field) {
+    function hits () { return $$('.search-result-document-hit > a', field) }
+
+    // Arrow keys walk the results and Enter opens the first one. This runs
+    // in the capture phase and stops the event, because the search script
+    // redraws the whole list on every key it sees in the input.
+    field.addEventListener('keydown', function (e) {
+      var list = hits()
+      var at = list.indexOf(document.activeElement)
+      if (e.key === 'Escape' && at >= 0) {
+        e.preventDefault()
+        e.stopPropagation()
+        searchInput.focus()
+      } else if (e.key === 'Enter' && e.target === searchInput && list.length) {
+        e.preventDefault()
+        e.stopPropagation()
+        list[0].click()
+      } else if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && list.length) {
+        e.preventDefault()
+        e.stopPropagation()
+        var next = at + (e.key === 'ArrowDown' ? 1 : -1)
+        if (next < 0) searchInput.focus()
+        else list[Math.min(next, list.length - 1)].focus()
+      }
+    }, true)
+
+    // A site in several languages shares one index. Keep the reader in their
+    // language, and say "no results" in it too.
+    new MutationObserver(function () {
+      $$('.search-result-dataset:not([data-zc])', field).forEach(function (set) {
+        set.setAttribute('data-zc', '')
+        if (S.otherLangs.length) {
+          $$('.search-result-item', set).forEach(function (item) {
+            var a = $('.search-result-document-hit > a', item)
+            if (!a) return
+            var path = new URL(a.href, location.href).pathname
+            var other = S.otherLangs.some(function (name) { return path.indexOf('/' + name + '/') >= 0 })
+            if (other) item.remove()
+          })
+        }
+        if (!$('.search-result-document-hit > a', set)) {
+          set.textContent = ''
+          var empty = document.createElement('div')
+          empty.className = 'search-result-item zc-empty'
+          empty.textContent = fill(S.noResults, searchInput.value.trim())
+          set.appendChild(empty)
+        }
+      })
+    }).observe(field, { childList: true, subtree: true })
+  }
+
   // ---------------------------------------------------------------- shortcuts
 
   var keys = $('#zc-keys')
@@ -100,6 +172,7 @@
       return
     }
     if (e.metaKey || e.ctrlKey || e.altKey || typing(e.target)) return
+    if (e.target.closest && e.target.closest('.search, [role=tablist]')) return
 
     if (pendingG && Date.now() - pendingG < 1200) {
       pendingG = 0
@@ -111,8 +184,9 @@
       case '?': if (keys && keys.showModal) keys.showModal(); break
       case 't': cycleTheme(); break
       case 'g': pendingG = Date.now(); break
-      case 'ArrowLeft': go($('link[rel=prev]')); break
-      case 'ArrowRight': go($('link[rel=next]')); break
+      // In a right-to-left page the previous page is to the right.
+      case 'ArrowLeft': go($(rtl ? 'link[rel=next]' : 'link[rel=prev]')); break
+      case 'ArrowRight': go($(rtl ? 'link[rel=prev]' : 'link[rel=next]')); break
     }
   })
 
@@ -217,8 +291,10 @@
     var button = document.createElement('button')
     button.type = 'button'
     button.className = 'copy'
-    button.setAttribute('aria-label', 'Copy to clipboard')
-    button.textContent = 'Copy'
+    button.setAttribute('aria-label', S.copyCode)
+    var label = document.createElement('span')
+    label.textContent = S.copy
+    button.appendChild(label)
     content.appendChild(button)
 
     button.addEventListener('click', function () {
@@ -230,14 +306,121 @@
         if (cmds.length) text = cmds.map(function (line) { return line.replace(/^\s*[$#] /, '') }).join('\n')
       }
       navigator.clipboard.writeText(text.replace(/\s+$/, '')).then(function () {
-        button.textContent = 'Copied'
-        button.classList.add('on')
-        setTimeout(function () { button.textContent = 'Copy'; button.classList.remove('on') }, 1600)
+        flash(button, label, S.copied)
       }, function () {
-        button.textContent = isMac ? 'Press ⌘C' : 'Press Ctrl C'
+        label.textContent = fill(S.pressCopy, isMac ? '⌘C' : 'Ctrl C')
       })
     })
   })
+
+  // ---------------------------------------------------------------- copy as Markdown
+
+  // The button copies the page's Markdown twin, written by the llms
+  // extension. The fetch goes inside the ClipboardItem so Safari still
+  // counts the copy as part of the click. If the copy fails, open the file.
+  $$('[data-copy-md]').forEach(function (button) {
+    var label = $('span', button)
+    if (!navigator.clipboard) { button.hidden = true; return }
+    button.addEventListener('click', function () {
+      var url = button.getAttribute('data-copy-md')
+      var text = fetch(url).then(function (r) {
+        if (!r.ok) throw new Error(url + ': ' + r.status)
+        return r.text()
+      })
+      var copied = window.ClipboardItem && navigator.clipboard.write
+        ? navigator.clipboard.write([new window.ClipboardItem({
+            'text/plain': text.then(function (t) { return new Blob([t], { type: 'text/plain' }) })
+          })])
+        : text.then(function (t) { return navigator.clipboard.writeText(t) })
+      copied.then(function () { flash(button, label, S.copied) }, function () { window.location.href = url })
+    })
+  })
+
+  // ---------------------------------------------------------------- tabs
+
+  // Markup from the Asciidoctor Tabs extension. Tabs marked as synced share
+  // a choice across the page, remembered for the next visit.
+  var tabsBlocks = $$('.doc .tabs')
+  tabsBlocks.forEach(initTabs)
+  if (tabsBlocks.length) {
+    window.addEventListener('hashchange', openTabFromHash)
+    openTabFromHash()
+  }
+
+  function initTabs (tabs) {
+    var list = $('.tablist > ul', tabs)
+    if (!list) return
+    list.setAttribute('role', 'tablist')
+    var pairs = $$(':scope > li', list).map(function (tab) {
+      var anchor
+      if (!tab.id && (anchor = $('a[id]', tab))) { tab.id = anchor.id; anchor.remove() }
+      var panel = tab.id && document.querySelector('.tabpanel[aria-labelledby~="' + tab.id + '"]')
+      tab.classList.add('tab')
+      tab.setAttribute('role', 'tab')
+      if (panel) {
+        tab.setAttribute('aria-controls', panel.id)
+        panel.setAttribute('role', 'tabpanel')
+        panel.setAttribute('tabindex', '0')
+      }
+      return { tab: tab, panel: panel, label: tab.textContent.trim() }
+    }).filter(function (p) { return p.panel })
+    if (!pairs.length) return
+    tabs.zcPairs = pairs
+    tabs.zcGroup = tabs.classList.contains('is-sync')
+      ? 'zc-tab:' + pairs.map(function (p) { return p.label }).sort().join('|')
+      : ''
+
+    var stored
+    try { stored = tabs.zcGroup && localStorage.getItem(tabs.zcGroup) } catch (e) { /* not remembered */ }
+    var start = pairs.filter(function (p) { return p.label === stored })[0] || pairs[0]
+    selectTab(tabs, start, false)
+    tabs.classList.remove('is-loading')
+
+    pairs.forEach(function (p, i) {
+      p.tab.addEventListener('click', function () { selectTab(tabs, p, true) })
+      p.tab.addEventListener('keydown', function (e) {
+        var step = { ArrowRight: rtl ? -1 : 1, ArrowLeft: rtl ? 1 : -1 }[e.key]
+        var to = step ? (i + step + pairs.length) % pairs.length : e.key === 'Home' ? 0 : e.key === 'End' ? pairs.length - 1 : -1
+        if (to < 0) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectTab(tabs, p, true) }
+          return
+        }
+        e.preventDefault()
+        selectTab(tabs, pairs[to], true)
+        pairs[to].tab.focus()
+      })
+    })
+  }
+
+  function selectTab (tabs, chosen, byReader) {
+    tabs.zcPairs.forEach(function (p) {
+      var on = p === chosen
+      p.tab.setAttribute('aria-selected', String(on))
+      p.tab.classList.toggle('is-selected', on)
+      p.tab.tabIndex = on ? 0 : -1
+      p.panel.hidden = !on
+    })
+    if (!byReader || !tabs.zcGroup) return
+    try { localStorage.setItem(tabs.zcGroup, chosen.label) } catch (e) { /* not remembered */ }
+    // Keep the block the reader clicked still while the others change size.
+    var top = tabs.getBoundingClientRect().top
+    tabsBlocks.forEach(function (other) {
+      if (other === tabs || other.zcGroup !== tabs.zcGroup) return
+      var same = other.zcPairs.filter(function (p) { return p.label === chosen.label })[0]
+      if (same) selectTab(other, same, false)
+    })
+    var moved = tabs.getBoundingClientRect().top - top
+    if (moved) window.scrollBy(0, moved)
+  }
+
+  function openTabFromHash () {
+    var id = decodeURIComponent(location.hash.slice(1))
+    var tab = id && document.getElementById(id)
+    var tabs = tab && tab.getAttribute('role') === 'tab' && tab.closest('.tabs')
+    if (!tabs || !tabs.zcPairs) return
+    var pair = tabs.zcPairs.filter(function (p) { return p.tab === tab })[0]
+    if (pair) selectTab(tabs, pair, true)
+  }
 
   // Wide tables scroll inside their own box instead of widening the page.
   $$('.doc table.tableblock').forEach(function (table) {
@@ -246,5 +429,12 @@
     wrap.className = 'tw'
     table.parentNode.insertBefore(wrap, table)
     wrap.appendChild(table)
+  })
+
+  // Asciidoctor's heading anchors are empty links; give each a name.
+  $$('.doc a.anchor').forEach(function (a) {
+    var heading = a.parentNode.cloneNode(true)
+    $$('.anchor', heading).forEach(function (x) { x.remove() })
+    a.setAttribute('aria-label', fill(S.anchor, heading.textContent.trim()))
   })
 })()

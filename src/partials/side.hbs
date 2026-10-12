@@ -1,15 +1,16 @@
-<aside class="side" id="zc-side" aria-label="Documentation">
+<aside class="side" id="zc-side" aria-label="{{t "docs"}}">
   <div class="sidetop">
     {{> brand}}
-    <button class="iconbtn sideclose" type="button" data-drawer-close aria-label="Close menu">{{{icon "close"}}}</button>
+    <button class="iconbtn sideclose" type="button" data-drawer-close aria-label="{{t "closeMenu"}}">{{{icon "close"}}}</button>
   </div>
-  <nav class="docnav" aria-label="Pages">
+{{> versions}}
+  <nav class="docnav" aria-label="{{t "pages"}}">
 {{#each page.navigation}}
     {{#if ./content}}<p class="navh">{{{./content}}}</p>{{/if}}
 {{> nav-items items=./items depth=0}}
 {{/each}}
   </nav>
   <div class="side-foot">
-    {{#with page.attributes.zc-repo}}<a class="led" href="{{{this}}}"><i></i><span class="lbl">Open source<small>{{or @root.page.attributes.zc-license 'MIT licensed'}}</small></span></a>{{/with}}
+    {{#with page.attributes.zc-repo}}<a class="led" href="{{{this}}}"><i></i><span class="lbl">{{t "openSource"}}<small>{{or @root.page.attributes.zc-license (t "license")}}</small></span></a>{{/with}}
   </div>
 </aside>

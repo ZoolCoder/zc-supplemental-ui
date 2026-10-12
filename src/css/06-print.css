@@ -3,7 +3,9 @@
 @media print{
   :root{color-scheme:light}
   body{background:#fff;color:#111;font-size:11pt}
-  body::before,body::after,.side,.hdr,.toc,.foot,.pager,.doc-f,.skip,.scrim,.copy,dialog{display:none!important}
+  body::before,body::after,.side,.hdr,.toc,.foot,.pager,.doc-f,.skip,.scrim,.copy,dialog,.doc-meta,.menu{display:none!important}
+  .doc .tabpanel[hidden]{display:block!important}
+  .doc .tablist{display:none}
   .shell,.body,main,.docgrid{display:block;padding:0;margin:0;max-width:none}
   .doc{animation:none}
   .doc a{color:inherit;text-decoration:underline}

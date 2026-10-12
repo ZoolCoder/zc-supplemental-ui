@@ -6,12 +6,12 @@
 .search .search-result-component-header{display:none}
 .search .search-result-item{display:grid;grid-template-columns:minmax(0,180px) 1fr;gap:12px;margin:0;padding:6px;border-radius:10px}
 .search .search-result-item+.search-result-item{border-top:1px solid var(--line);border-radius:0}
-.search .search-result-document-title{width:auto;border:0;padding:6px 0;text-align:start;color:var(--fg);font-size:13px;font-weight:650}
+.search .search-result-document-title{width:auto;border:0;position:static;padding:6px 0;text-align:start;color:var(--fg);font-size:13px;font-weight:650}
 .search .search-result-document-hit{font-size:12.5px;color:var(--muted)}
-.search .search-result-document-hit>a{display:block;padding:6px 10px;border-radius:9px;color:inherit;border:1px solid transparent}
-.search .search-result-document-hit>a:hover,.search .search-result-document-hit>a:focus-visible{background:var(--acc-sub);border-color:var(--acc-line);text-decoration:none;color:var(--fg);outline:none}
-.search .search-result-section-title{color:var(--fg);font-weight:600;margin-bottom:2px}
-.search .search-result-highlight{color:var(--acc);font-weight:650;background:none}
+.search .search-result-document-hit>a{display:block;padding:6px 10px;scroll-margin:6px;border-radius:9px;color:inherit;border:1px solid transparent}
+.search .search-result-document-hit>a:hover,.search .search-result-document-hit>a:focus-visible,.search .search-result-document-hit>a.on{background:var(--acc-sub);border-color:var(--acc-line);text-decoration:none;color:var(--fg);outline:none}
+.search .search-result-document-hit .search-result-section-title{color:var(--fg);font-weight:600;font-size:inherit;margin-bottom:2px}
+.search .search-result-document-hit .search-result-highlight,.search .search-result-highlight{color:var(--acc);font-weight:650;background:none;padding:0}
 .search .search-result-keywords{display:none}
 .search .search-result-dataset>.search-result-item:only-child:not(:has(a)),.search .search-result-dataset>div:not([class]){padding:14px;color:var(--muted);font-size:13px}
 @media (max-width:720px){

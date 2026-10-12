@@ -8,15 +8,23 @@
 {{#with page.description}}
   <p class="sub">{{{this}}}</p>
 {{/with}}
+{{> page-meta}}
 </header>
 {{{page.contents}}}
 {{> pagination}}
+{{#if (or page.editUrl page.attributes.zc-updated)}}
+<p class="doc-f">
 {{#with page.editUrl}}
-<p class="doc-f"><a href="{{{this}}}">{{{icon "edit"}}}Edit this page</a></p>
+  <a href="{{{this}}}">{{{icon "edit"}}}{{t "editPage"}}</a>
 {{/with}}
+{{#with page.attributes.zc-updated}}
+  <span class="updated">{{t "updated"}} <time datetime="{{this}}">{{date this}}</time></span>
+{{/with}}
+</p>
+{{/if}}
 </article>
 <aside class="toc" data-levels="{{or page.attributes.toclevels 2}}" aria-labelledby="zc-toc-h" hidden>
-  <p class="navh" id="zc-toc-h">On this page</p>
+  <p class="navh" id="zc-toc-h">{{t "onThisPage"}}</p>
   <nav class="toc-menu"></nav>
 </aside>
 </div>

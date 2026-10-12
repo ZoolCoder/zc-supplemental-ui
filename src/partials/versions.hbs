@@ -1,0 +1,10 @@
+{{#if page.versions}}
+  <div class="ver">
+    <button class="vbtn" type="button" popovertarget="zc-versions" aria-haspopup="menu"><span class="ver-k">{{t "version"}}</span><b>{{page.displayVersion}}</b>{{#if (eq page.componentVersion page.component.latest)}}<span class="chip">{{t "latest"}}</span>{{/if}}<span class="chev">{{{icon "chevron"}}}</span></button>
+    <div class="menu" id="zc-versions" popover role="menu" aria-label="{{t "version"}}">
+{{#each page.versions}}
+      <a role="menuitemradio" aria-checked="{{#if (eq ./version @root.page.version)}}true{{else}}false{{/if}}" class="{{#if (eq ./version @root.page.version)}}on{{/if}}{{#if ./missing}} missing{{/if}}" href="{{{relativize ./url}}}"><span>{{./displayVersion}}</span>{{#if ./latest}}<span class="chip">{{t "latest"}}</span>{{/if}}{{#if ./prerelease}}<span class="chip pre">{{./prerelease}}</span>{{/if}}{{#if (eq ./version @root.page.version)}}{{{icon "check"}}}{{/if}}</a>
+{{/each}}
+    </div>
+  </div>
+{{/if}}

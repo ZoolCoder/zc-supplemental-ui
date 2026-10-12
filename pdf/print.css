@@ -57,7 +57,7 @@ pre,code,kbd{font-family:"SF Mono",Menlo,"DejaVu Sans Mono",Consolas,monospace}
 .listingblock,.literalblock{direction:ltr;text-align:left}
 .listingblock>.title,.literalblock>.title{direction:inherit}
 pre{margin:0 0 4mm;padding:3.5mm 4mm;background:var(--code-bg);border:1px solid var(--line);border-radius:2mm;font-size:8.8pt;line-height:1.55;white-space:pre-wrap;word-break:break-word;break-inside:avoid}
-:not(pre)>code{font-size:.88em;padding:.2mm 1.2mm;background:var(--code-bg);border:1px solid var(--line);border-radius:1mm;unicode-bidi:isolate}
+:not(pre)>code{font-size:.88em;padding:.2mm 1.2mm;background:var(--code-bg);border:1px solid var(--line);border-radius:1mm;direction:ltr;unicode-bidi:isolate}
 .conum{display:inline-block;min-width:4mm;padding:0 1mm;border-radius:2mm;background:var(--acc);color:#fff;font-size:7.5pt;font-style:normal;font-weight:700;text-align:center;line-height:4mm}
 .conum+b{display:none}
 .colist table{border-collapse:collapse}

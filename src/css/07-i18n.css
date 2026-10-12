@@ -4,7 +4,7 @@
 
 /* code reads left to right in every language */
 .doc .listingblock>.content,.doc .literalblock>.content,.doc pre{direction:ltr;text-align:left}
-.doc :not(pre)>code{unicode-bidi:isolate}
+.doc :not(pre)>code{direction:ltr;unicode-bidi:isolate}
 /* key names read left to right, "Ctrl K" and "⌘K" alike */
 kbd{direction:ltr;unicode-bidi:isolate}
 .doc .imageblock svg{direction:ltr}

@@ -77,13 +77,16 @@ npm install --save-dev github:zoolcoder/zc-supplemental-ui#v0.2.0 @asciidoctor/t
 ```yaml
 antora:
   extensions:
-    - zc-supplemental-ui/extensions/last-updated.js  # "Last updated" from git
-    - zc-supplemental-ui/extensions/llms.js          # .md per page, llms.txt
-    - zc-supplemental-ui/extensions/og-image.js      # link-preview cards
+    - zc-supplemental-ui/extensions/last-updated  # "Last updated" from git
+    - zc-supplemental-ui/extensions/llms          # .md per page, llms.txt
+    - zc-supplemental-ui/extensions/og-image      # link-preview cards
 asciidoc:
   extensions:
     - '@asciidoctor/tabs'
 ```
+
+Leave `.js` off the names: Antora reads a request that ends in `.js` as a
+path next to the playbook, not as a package in `node_modules`.
 
 - `last-updated.js` reads the git history. In CI, check out all of it
   (`fetch-depth: 0` on `actions/checkout`).

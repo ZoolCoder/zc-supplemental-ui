@@ -44,7 +44,9 @@ module.exports.register = function () {
         const pages = navigationPages(version, pageByUrl)
         if (!pages.length) continue
         const lang = version.asciidoc && version.asciidoc.attributes && version.asciidoc.attributes.lang
-        const heading = [component.title, version.displayVersion, lang && `(${lang})`].filter(Boolean).join(' ')
+        // An unversioned component (version: ~) has no version worth naming.
+        const shown = version.version && version.displayVersion
+        const heading = [component.title, shown, lang && `(${lang})`].filter(Boolean).join(' ')
         index.push(`## ${heading}`, '')
         for (const page of pages) {
           const { path, contents } = markdown.get(page)

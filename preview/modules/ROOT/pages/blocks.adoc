@@ -1,5 +1,5 @@
 = Blocks
-:description: Code, callouts, admonitions, images and containers.
+:description: Code, callouts, tabs, diagrams, admonitions and containers.
 
 == Code
 
@@ -25,6 +25,69 @@ func main() {
 	fmt.Println("hello")
 }
 ----
+
+== Tabs
+
+Tabs hold the same step for different systems. Tabs with the same labels
+and the `sync` option change together, and the choice is remembered.
+
+[tabs%sync]
+======
+macOS::
++
+[source,console]
+----
+$ brew install zoolcoder/tap/mailctl
+----
+
+Linux::
++
+[source,console]
+----
+$ curl -fsSL https://example.com/install.sh | sh
+----
+
+From source::
++
+[source,console]
+----
+$ go install github.com/zoolcoder/mailctl/cmd/mailctl@latest
+----
+======
+
+Then check the install:
+
+[tabs%sync]
+======
+macOS::
++
+[source,console]
+----
+$ mailctl version
+----
+
+Linux::
++
+[source,console]
+----
+$ mailctl version
+----
+
+From source::
++
+[source,console]
+----
+$ $(go env GOPATH)/bin/mailctl version
+----
+======
+
+== Diagrams
+
+An SVG drawn with the diagram classes follows the theme when it is inlined.
+Its own `fill` and `stroke` colours are what the PDF uses.
+
+[.diagram]
+image::flow.svg["A config file is planned, then applied to two providers",opts=inline]
 
 == Admonitions
 

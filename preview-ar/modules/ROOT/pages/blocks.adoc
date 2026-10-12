@@ -1,0 +1,60 @@
+= الكتل
+:description: الشيفرة والتعليقات والألسنة والتنبيهات والحاويات.
+
+== الشيفرة
+
+تبقى الشيفرة من اليسار إلى اليمين في كل اللغات:
+
+[source,yaml]
+----
+version: 1
+domains:
+  - name: example.com # <1>
+    mail:
+      provider: purelymail
+----
+<1> يجب أن يكون النطاق منطقة في حساب Cloudflare الخاص بك.
+
+== الألسنة
+
+[tabs%sync]
+======
+macOS::
++
+[source,console]
+----
+$ brew install zoolcoder/tap/mailctl
+----
+
+Linux::
++
+[source,console]
+----
+$ curl -fsSL https://example.com/install.sh | sh
+----
+======
+
+== المخططات
+
+[.diagram]
+image::preview:ROOT:flow.svg["ملف الإعداد يُخطَّط ثم يُطبَّق على مزوّدَين",opts=inline]
+
+== التنبيهات
+
+NOTE: تحمل الملاحظة خلفية قد يحتاجها القارئ.
+
+TIP: تختصر النصيحة مهمة.
+
+WARNING: يمنع التحذير خطأً يكلّف وقتًا.
+
+== الحاويات
+
+.شريط جانبي
+****
+يحمل الشريط الجانبي ملاحظة لا تنتمي إلى سياق النص.
+****
+
+[quote,قارئ]
+____
+تُزاح الاقتباسات عن خط فاصل.
+____

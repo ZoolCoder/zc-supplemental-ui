@@ -2,19 +2,28 @@
 antora:
   extensions:
     - require: '@antora/lunr-extension'
+      languages: [en, ar]
+    - ./../extensions/last-updated.js
+    - ./../extensions/llms.js
+    - ./../extensions/og-image.js
 site:
   title: zc-supplemental-ui
+  url: http://127.0.0.1:8642
   start_page: preview::index.adoc
 content:
   sources:
     - url: ./..
-      start_path: preview
+      start_paths: [preview, preview-ar, preview-old]
       branches: HEAD
       edit_url: false
 ui:
   bundle:
     url: ./../build/ui-bundle.zip
+urls:
+  latest_version_segment: ''
 asciidoc:
+  extensions:
+    - '@asciidoctor/tabs'
   attributes:
     experimental: ''
     idprefix: ''
@@ -24,6 +33,7 @@ asciidoc:
     page-zc-site: https://zoolcoder.com/
     page-zc-site-name: zoolcoder.com
     page-zc-owner: ZoolCoder
-    page-zc-pdf: preview/_exports/index.pdf
+    page-zc-pdf: preview/_exports/index.pdf@
+    page-zc-langs: en=preview ar=preview-ar
 output:
   dir: ./../build/preview

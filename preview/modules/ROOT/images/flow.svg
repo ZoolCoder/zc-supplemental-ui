@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 150" width="720" height="150" font-size="15">
+  <title>A config file is planned, then applied to two providers</title>
+  <defs>
+    <marker id="flow-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path class="d-head" d="M0 1L9 5L0 9z" fill="#63738A"/>
+    </marker>
+  </defs>
+  <g stroke-width="1.5">
+    <rect class="d-box" x="10" y="45" width="150" height="60" rx="12" fill="#FFFFFF" stroke="#B8C8DD"/>
+    <rect class="d-acc" x="230" y="45" width="130" height="60" rx="12" fill="#EAF2FF" stroke="#9DBEFF"/>
+    <rect class="d-acc" x="430" y="45" width="110" height="60" rx="12" fill="#EAF2FF" stroke="#9DBEFF"/>
+    <rect class="d-ok" x="600" y="10" width="110" height="52" rx="12" fill="#ECFDF3" stroke="#86EFAC"/>
+    <rect class="d-ok" x="600" y="88" width="110" height="52" rx="12" fill="#ECFDF3" stroke="#86EFAC"/>
+    <path class="d-edge" d="M160 75H226" fill="none" stroke="#63738A" marker-end="url(#flow-head)"/>
+    <path class="d-edge" d="M360 75H426" fill="none" stroke="#63738A" marker-end="url(#flow-head)"/>
+    <path class="d-edge" d="M540 66C568 58 574 40 596 37" fill="none" stroke="#63738A" marker-end="url(#flow-head)"/>
+    <path class="d-edge" d="M540 84C568 92 574 110 596 113" fill="none" stroke="#63738A" marker-end="url(#flow-head)"/>
+  </g>
+  <g text-anchor="middle" font-family="system-ui,sans-serif">
+    <text class="d-code" x="85" y="80" fill="#2563EB" font-family="ui-monospace,Menlo,monospace">mailctl.yaml</text>
+    <text class="d-text" x="295" y="72" fill="#131A27" font-weight="600">plan</text>
+    <text class="d-sub" x="295" y="92" fill="#46566D" font-size="12">what will change</text>
+    <text class="d-text" x="485" y="72" fill="#131A27" font-weight="600">apply</text>
+    <text class="d-sub" x="485" y="92" fill="#46566D" font-size="12">make it so</text>
+    <text class="d-text" x="655" y="41" fill="#131A27">DNS</text>
+    <text class="d-text" x="655" y="119" fill="#131A27">Mail</text>
+  </g>
+</svg>

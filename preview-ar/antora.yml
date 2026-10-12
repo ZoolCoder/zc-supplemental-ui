@@ -1,0 +1,27 @@
+# The Arabic preview. lang makes the UI right-to-left, translates its
+# strings, and sends the PDF through Chrome. The captions translate the
+# labels Asciidoctor writes.
+name: preview-ar
+title: zc-supplemental-ui
+version: '0.2'
+nav:
+  - modules/ROOT/nav.adoc
+asciidoc:
+  attributes:
+    lang: ar
+    page-zc-pdf: preview-ar/_exports/index.pdf
+    page-zc-tagline: التوثيق
+    page-zc-license: مرخّص بموجب MIT
+    appendix-caption: ملحق
+    caution-caption: تنبيه
+    example-caption: مثال
+    figure-caption: شكل
+    important-caption: مهم
+    last-update-label: آخر تحديث
+    note-caption: ملاحظة
+    table-caption: جدول
+    tip-caption: نصيحة
+    toc-title: المحتويات
+    untitled-label: بلا عنوان
+    version-label: الإصدار
+    warning-caption: تحذير

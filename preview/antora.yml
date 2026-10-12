@@ -1,5 +1,5 @@
 name: preview
 title: zc-supplemental-ui
-version: ~
+version: '0.2'
 nav:
   - modules/ROOT/nav.adoc

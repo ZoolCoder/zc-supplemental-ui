@@ -1,7 +1,8 @@
-# One PDF of the whole preview component, rendered with the theme in pdf/.
+# One PDF per component version: asciidoctor-pdf with the theme in pdf/, or
+# Chrome for the Arabic one. See bin/zc-pdf.js.
 root_level: 0
 build:
-  command: bundle exec asciidoctor-pdf -a pdf-themesdir=../pdf -a pdf-theme=zc
+  command: node ../bin/zc-pdf.js -a pdf-themesdir=../pdf -a pdf-theme=zc
   publish: true
 asciidoc:
   attributes:

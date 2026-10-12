@@ -1,0 +1,97 @@
+/* The print stylesheet zc-pdf gives Chrome for right-to-left guides. It
+   follows the zc asciidoctor-pdf theme: A4, the same blue, quiet tables, code
+   on a tinted panel. __FONTS__ and __FOOTER__ are filled in by zc-pdf. */
+
+@font-face{font-family:"Plex Arabic";src:url("__FONTS__/IBMPlexSansArabic-Regular.ttf");font-weight:400}
+@font-face{font-family:"Plex Arabic";src:url("__FONTS__/IBMPlexSansArabic-Bold.ttf");font-weight:700}
+
+@page{
+  size:A4;
+  margin:22mm 18mm 24mm;
+  @bottom-left{content:counter(page);font:9pt "Plex Arabic",sans-serif;color:#63738A}
+  @bottom-right{content:"__FOOTER__";font:9pt "Plex Arabic",sans-serif;color:#63738A}
+}
+@page:first{@bottom-left{content:none}@bottom-right{content:none}}
+
+:root{
+  --fg:#131A27;--muted:#46566D;--dim:#63738A;--line:#DCE4F0;--acc:#2563EB;--acc-sub:#EAF2FF;--code-bg:#F4F7FC;
+  --ok:#15803D;--warn:#B45309;--bad:#B91C1C;
+}
+:root:is(:lang(ar),:lang(fa),:lang(he),:lang(ps),:lang(ur),:lang(yi)){direction:rtl}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;font:10.5pt/1.75 "Plex Arabic",sans-serif;color:var(--fg);letter-spacing:0}
+#header,#content{max-width:none;margin:0;padding:0}
+
+/* title page */
+#header>h1{font-size:30pt;line-height:1.3;margin:60mm 0 6mm;color:var(--fg)}
+#header .details{color:var(--muted);font-size:11pt}
+#header .details br{display:none}
+#header .details span{margin-inline-end:10px;unicode-bidi:isolate}
+#header #revdate{direction:ltr}
+#toc{break-before:page;break-after:page;border:0}
+#toctitle{font-size:18pt;font-weight:700;margin:0 0 6mm;color:var(--fg)}
+#toc ul{list-style:none;margin:0;padding:0}
+#toc ul ul{padding-inline-start:6mm}
+#toc li{margin:1.5mm 0}
+#toc a{color:var(--fg);text-decoration:none}
+#toc .sectlevel1>li>a{font-weight:700}
+
+/* headings: each top-level section, which is one page of the site, starts a page */
+h1,h2,h3,h4,h5,h6{line-height:1.4;break-after:avoid;color:var(--fg)}
+#content>.sect0>h1,#content>.sect1>h2{break-before:page}
+#content>.sect0>h1,.sect0>h1{font-size:22pt;margin:0 0 6mm;padding-bottom:3mm;border-bottom:2px solid var(--acc)}
+h2{font-size:17pt;margin:9mm 0 3mm}
+h3{font-size:13.5pt;margin:7mm 0 2mm}
+h4{font-size:11.5pt;margin:5mm 0 2mm}
+.sect1>h2{font-size:18pt;padding-bottom:2mm;border-bottom:1px solid var(--line)}
+
+p{margin:0 0 3mm}
+a{color:var(--acc);text-decoration:none}
+ul,ol{margin:0 0 3mm;padding-inline-start:7mm}
+li{margin:1mm 0}
+li>p{margin:0}
+.title{font-weight:700;color:var(--muted);margin:4mm 0 1.5mm;font-size:10pt}
+
+/* code reads left to right in every language */
+pre,code,kbd{font-family:"SF Mono",Menlo,"DejaVu Sans Mono",Consolas,monospace}
+.listingblock,.literalblock{direction:ltr;text-align:left}
+.listingblock>.title,.literalblock>.title{direction:inherit}
+pre{margin:0 0 4mm;padding:3.5mm 4mm;background:var(--code-bg);border:1px solid var(--line);border-radius:2mm;font-size:8.8pt;line-height:1.55;white-space:pre-wrap;word-break:break-word;break-inside:avoid}
+:not(pre)>code{font-size:.88em;padding:.2mm 1.2mm;background:var(--code-bg);border:1px solid var(--line);border-radius:1mm;unicode-bidi:isolate}
+.conum{display:inline-block;min-width:4mm;padding:0 1mm;border-radius:2mm;background:var(--acc);color:#fff;font-size:7.5pt;font-style:normal;font-weight:700;text-align:center;line-height:4mm}
+.conum+b{display:none}
+.colist table{border-collapse:collapse}
+.colist td{padding:.6mm 0;padding-inline-end:2.5mm;vertical-align:top}
+.colist ol{list-style:none;padding:0;counter-reset:conum}
+.colist li{counter-increment:conum;display:flex;gap:2.5mm;align-items:baseline}
+.colist li::before{content:counter(conum);flex:none;display:inline-block;min-width:4mm;padding:0 1mm;border-radius:2mm;background:var(--acc);color:#fff;font-size:7.5pt;font-weight:700;text-align:center;line-height:4mm}
+
+/* tables */
+table.tableblock{width:100%;border-collapse:collapse;margin:0 0 4mm;font-size:9.5pt;break-inside:auto}
+table.tableblock th,table.tableblock td{border-bottom:1px solid var(--line);padding:1.8mm 2.5mm;text-align:start;vertical-align:top}
+table.tableblock thead th{background:#F1F5FB;font-weight:700;border-bottom:1px solid #B8C8DD}
+table.tableblock p{margin:0}
+caption.title{caption-side:top;text-align:start}
+tr{break-inside:avoid}
+
+/* admonitions */
+.admonitionblock{margin:0 0 4mm;break-inside:avoid}
+.admonitionblock>table{width:100%;border-collapse:collapse;background:var(--acc-sub);border-inline-start:1.2mm solid var(--acc);border-radius:1.5mm}
+.admonitionblock td{padding:2.5mm 3.5mm;vertical-align:top}
+.admonitionblock td.icon{width:16mm;font-weight:700;color:var(--acc);font-size:9.5pt;padding-inline-end:0}
+.admonitionblock td.content>:last-child{margin-bottom:0}
+.admonitionblock.tip>table{background:#ECFDF3;border-inline-start-color:var(--ok)}.admonitionblock.tip td.icon{color:var(--ok)}
+.admonitionblock.warning>table,.admonitionblock.caution>table{background:#FFF7ED;border-inline-start-color:var(--warn)}
+.admonitionblock.warning td.icon,.admonitionblock.caution td.icon{color:var(--warn)}
+.admonitionblock.important>table{background:#FEF2F2;border-inline-start-color:var(--bad)}.admonitionblock.important td.icon{color:var(--bad)}
+
+/* other blocks */
+.exampleblock>.content,.sidebarblock>.content{border:1px solid var(--line);border-radius:2mm;padding:3mm 4mm;margin:0 0 4mm}
+.sidebarblock>.content{background:#F8FAFF}
+.quoteblock blockquote{margin:0 0 4mm;padding:0;padding-inline-start:4mm;border-inline-start:1mm solid var(--line);color:var(--muted)}
+dl{margin:0 0 3mm}dt{font-weight:700;margin-top:2mm}dd{margin:0;margin-inline-start:6mm}
+.hdlist td{padding:1mm 0;padding-inline-end:4mm;vertical-align:top}
+.imageblock{margin:0 0 4mm;text-align:center;break-inside:avoid}
+.imageblock img,.imageblock svg{max-width:100%;height:auto}
+.imageblock svg{direction:ltr}
+hr{border:0;border-top:1px solid var(--line);margin:6mm 0}

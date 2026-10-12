@@ -1,8 +1,22 @@
 = zc-supplemental-ui
 :description: A preview site that exercises every part of the ZoolCoder docs UI.
 
+[.hero]
+--
 This site renders every element the UI styles, so a change can be checked in
 both themes and at phone width before it ships.
+--
+
+[.cta]
+xref:blocks.adoc[See the blocks] xref:tables.adoc[Tables and lists] https://github.com/zoolcoder/zc-supplemental-ui[GitHub]
+
+[.cards]
+* xref:blocks.adoc[Blocks] +
+Code, callouts, admonitions and containers.
+* xref:tables.adoc[Tables and lists] +
+Tables, definition lists and checklists.
+* *A card without a link* +
+Holds a short fact, and does not respond to the pointer.
 
 == Configure a site
 
@@ -20,6 +34,14 @@ Set these AsciiDoc attributes in the consuming playbook:
 | `page-zc-license` | The licence line. Defaults to `MIT licensed`.
 | `page-zc-og-image` | An absolute image URL for link previews.
 |===
+
+== Page roles
+
+Three roles shape a landing page:
+
+`[.hero]` on an open block:: Sets its paragraphs as the page's lead.
+`[.cta]` on a paragraph of links:: Turns them into buttons. The first is the primary one.
+`[.cards]` on a list:: Lays it out as a grid of cards. A card that starts with a link is clickable all over.
 
 == Keyboard
 

@@ -23,6 +23,9 @@ docs look like one product.
   the commands, without their `$` prompts.
 - Every Asciidoctor block styled: admonitions, tables, callouts, definition
   lists, examples, sidebars, quotes and images.
+- Roles for a landing page: `[.hero]` on an open block for the lead, `[.cta]`
+  on a paragraph of links for buttons, and `[.cards]` on a list for a card
+  grid.
 - Keyboard shortcuts. Press <kbd>?</kbd> on any page for the list.
 - A PDF button, and a theme that gives the PDF the same mark and colours.
 - No external requests and no tracking. Everything is served by your site.

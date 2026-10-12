@@ -24,6 +24,9 @@ All notable changes to zc-supplemental-ui. The format follows
   and the arrow keys turn pages.
 - PDF and GitHub buttons, footer links and a licence line, each driven by a
   `page-zc-*` attribute in the playbook.
+- Roles for landing pages: `[.hero]` for a lead, `[.cta]` for a row of
+  buttons, and `[.cards]` for a grid of cards that are clickable when they
+  start with a link.
 - A print stylesheet for a single page.
 - `zc-pdf-theme.zip`, an asciidoctor-pdf theme with the ZoolCoder mark on
   the title page, the toolshell palette, and running headers and footers.

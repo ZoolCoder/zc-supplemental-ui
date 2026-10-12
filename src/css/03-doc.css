@@ -145,6 +145,22 @@
 .doc .quoteblock blockquote,.doc .verseblock pre{margin:0;padding:4px 0 4px 18px;border-inline-start:3px solid var(--acc-line);color:var(--muted);font-style:italic;background:none;border-radius:0;box-shadow:none;font-family:inherit;font-size:15px;border-top:0;border-bottom:0;border-inline-end:0}
 .doc .quoteblock .attribution{margin-top:6px;font-size:13px;color:var(--dim)}
 
+/* roles for landing pages: [.hero] open block, [.cta] links, [.cards] list */
+.doc .openblock.hero>.content>.paragraph p{font-size:17px;line-height:1.6;color:var(--fg)}
+.doc .openblock.hero>.content>.paragraph+.paragraph p{color:var(--muted);font-size:15.5px}
+.doc .paragraph.cta p{display:flex;flex-wrap:wrap;gap:10px}
+.doc .paragraph.cta a{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:9px;border:1px solid var(--line2);background:var(--raised);color:var(--fg);font-size:14px;font-weight:600;text-decoration:none;box-shadow:var(--hl);transition:border-color .16s var(--ease),color .16s var(--ease),box-shadow .16s var(--ease)}
+.doc .paragraph.cta a:hover{border-color:var(--acc);color:var(--acc);text-decoration:none}
+.doc .paragraph.cta a:first-child{background:linear-gradient(180deg,var(--btn-top),var(--btn) 70%);color:var(--btn-ink);border-color:var(--btn-top);box-shadow:var(--btn-glow),inset 0 1px 0 rgba(255,255,255,.22)}
+.doc .paragraph.cta a:first-child:hover{color:var(--btn-ink);box-shadow:var(--btn-glow),0 0 22px rgba(59,130,246,.35)}
+.doc .ulist.cards>ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.doc .ulist.cards>ul>li{margin:0;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow),var(--hl);position:relative;font-size:14px;line-height:1.55;color:var(--muted);transition:border-color .16s var(--ease),box-shadow .16s var(--ease)}
+.doc .ulist.cards>ul>li strong,.doc .ulist.cards>ul>li>p>a:first-child{display:inline-block;margin-bottom:2px;color:var(--fg);font-size:15px;font-weight:650;text-decoration:none}
+/* a card that starts with a link is clickable all over */
+.doc .ulist.cards>ul>li>p>a:first-child::after{content:"";position:absolute;inset:0;border-radius:inherit}
+.doc .ulist.cards>ul>li:has(>p>a:first-child):hover{border-color:var(--acc-line);box-shadow:var(--lift),var(--edge)}
+.doc .ulist.cards>ul>li:has(>p>a:first-child):hover>p>a:first-child{color:var(--acc)}
+
 /* previous and next */
 .pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:56px}
 .pager a{display:flex;flex-direction:column;gap:2px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow),var(--hl);color:var(--fg);transition:border-color .16s var(--ease),box-shadow .16s var(--ease)}

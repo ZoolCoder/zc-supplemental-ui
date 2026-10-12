@@ -30,7 +30,13 @@ jobs:
           ruby-version: '3.4'
           bundler-cache: true
       - run: npm ci
-      - name: build the preview site and its PDF
+      # The Arabic PDF prints through the Chrome preinstalled on the runner.
+      - name: build the preview site and its PDFs
         run: npm run preview:pdf
-      - name: the PDF exists
-        run: test -s build/preview/preview/_exports/index.pdf
+      - name: the PDFs, llms.txt and link-preview cards exist
+        run: |
+          test -s build/preview/preview/_exports/index.pdf
+          test -s build/preview/preview-ar/_exports/index.pdf
+          grep -q '^## ' build/preview/llms.txt
+          test -s build/preview/preview/blocks.md
+          test -s build/preview/_og/preview-ar/index.png

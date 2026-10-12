@@ -4,6 +4,37 @@ All notable changes to zc-supplemental-ui. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## v0.2.0 — 2026-10-13
+
+### Added
+
+- Translations. `page-zc-langs` pairs each language with a component, and
+  the header gets a language menu that opens the same page in the other
+  language. The interface is in English or Arabic, and Arabic, Persian,
+  Hebrew and Urdu pages are laid out right to left.
+- Search shows only the hits in the reader's language.
+- A version menu in the sidebar, which marks the latest version and opens
+  the same page in another version.
+- Tabs from `@asciidoctor/tabs`, with arrow-key support, synced choices that
+  are remembered, and a style for each theme.
+- Diagram classes for inline SVG (`d-box`, `d-acc`, `d-ok`, `d-edge`...),
+  which follow the light and dark themes.
+- Antora extensions, shipped in the npm package:
+  - `last-updated.js` shows "Last updated" under each page, from git.
+  - `llms.js` writes a Markdown copy of each page, `llms.txt` and
+    `llms-full.txt`. The page gets a "Copy as Markdown" button and a link to
+    the `.md` file.
+  - `og-image.js` draws a link-preview card for each page, mirrored for
+    right-to-left pages.
+- `zc-pdf`, a PDF command for Antora Assembler. It runs asciidoctor-pdf as
+  before, and prints right-to-left guides through headless Chrome with a
+  matching print stylesheet, since asciidoctor-pdf cannot shape Arabic.
+
+### Fixed
+
+- Heading anchors have an accessible name, and the light theme's dim text
+  meets the 4.5:1 contrast ratio.
+
 ## v0.1.0 — 2026-10-13
 
 ### Added

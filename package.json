@@ -1,0 +1,20 @@
+{
+  "name": "zc-supplemental-ui",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The ZoolCoder Antora UI bundle and asciidoctor-pdf theme, built on the toolshell design.",
+  "license": "MIT",
+  "repository": "github:zoolcoder/zc-supplemental-ui",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/build.mjs && antora --log-failure-level=warn preview/antora-playbook.yml",
+    "preview:pdf": "node scripts/build.mjs && antora --log-failure-level=warn --extension @antora/pdf-extension preview/antora-playbook.yml"
+  },
+  "devDependencies": {
+    "@antora/cli": "3.2.1",
+    "@antora/lunr-extension": "1.0.0-alpha.13",
+    "@antora/pdf-extension": "1.0.1",
+    "@antora/site-generator": "3.2.1",
+    "@highlightjs/cdn-assets": "11.12.0"
+  }
+}

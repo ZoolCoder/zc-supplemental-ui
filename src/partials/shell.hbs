@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="{{or page.attributes.lang 'en'}}" data-theme="auto">
+<head>
+{{> head}}
+</head>
+<body class="zc-docs{{#with page.attributes.role}} {{this}}{{/with}}">
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+<div class="scrim" data-scrim hidden></div>
+{{> side}}
+<div class="body">
+{{> hdr}}
+<main id="main" tabindex="-1">
+{{#if (eq page.layout '404')}}
+{{> page-404}}
+{{else}}
+{{> page}}
+{{/if}}
+</main>
+{{> footer}}
+</div>
+</div>
+{{> keys}}
+{{> scripts}}
+</body>
+</html>

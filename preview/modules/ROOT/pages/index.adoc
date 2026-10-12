@@ -1,0 +1,26 @@
+= zc-supplemental-ui
+:description: A preview site that exercises every part of the ZoolCoder docs UI.
+
+This site renders every element the UI styles, so a change can be checked in
+both themes and at phone width before it ships.
+
+== Configure a site
+
+Set these AsciiDoc attributes in the consuming playbook:
+
+[cols="1,3"]
+|===
+| Attribute | Effect
+
+| `page-zc-repo` | Repository URL. Adds the GitHub button, the footer links and the sidebar badge.
+| `page-zc-pdf` | Path of the PDF from the site root. Adds the PDF button.
+| `page-zc-site` | The owner's website, linked from the menu and the footer.
+| `page-zc-owner` | The owner's name in the footer.
+| `page-zc-tagline` | The line under the product name. Defaults to `Documentation`.
+| `page-zc-license` | The licence line. Defaults to `MIT licensed`.
+| `page-zc-og-image` | An absolute image URL for link previews.
+|===
+
+== Keyboard
+
+Press kbd:[Ctrl+K] or kbd:[/] to search, kbd:[?] for the full list.

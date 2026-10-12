@@ -1,0 +1,38 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>{{{detag (or page.title 'Page not found')}}}{{#with site.title}} · {{this}}{{/with}}</title>
+{{#with page.canonicalUrl}}
+<link rel="canonical" href="{{{this}}}">
+{{/with}}
+{{#with page.description}}
+<meta name="description" content="{{{detag this}}}">
+{{/with}}
+{{#with page.keywords}}
+<meta name="keywords" content="{{{this}}}">
+{{/with}}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{site.title}}">
+<meta property="og:title" content="{{{detag (or page.title site.title)}}}">
+{{#with page.description}}
+<meta property="og:description" content="{{{detag this}}}">
+{{/with}}
+{{#with page.canonicalUrl}}
+<meta property="og:url" content="{{{this}}}">
+{{/with}}
+{{#with page.attributes.zc-og-image}}
+<meta property="og:image" content="{{{this}}}">
+<meta name="twitter:card" content="summary_large_image">
+{{/with}}
+{{#with (or antoraVersion site.antoraVersion)}}
+<meta name="generator" content="Antora {{this}}">
+{{/with}}
+{{> head-theme}}
+<link rel="stylesheet" href="{{{uiRootPath}}}/css/site.css">
+<link rel="icon" href="{{{uiRootPath}}}/img/mark.svg" type="image/svg+xml">
+{{#with page.previous}}
+<link rel="prev" href="{{{relativize ./url}}}">
+{{/with}}
+{{#with page.next}}
+<link rel="next" href="{{{relativize ./url}}}">
+{{/with}}

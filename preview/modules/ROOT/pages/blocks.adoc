@@ -1,0 +1,61 @@
+= Blocks
+:description: Code, callouts, admonitions, images and containers.
+
+== Code
+
+[source,console]
+----
+$ mailctl plan
+Plan: 2 to create, 0 to update, 0 to delete.
+----
+
+[source,yaml]
+----
+version: 1
+domains:
+  - name: example.com # <1>
+    mail:
+      provider: purelymail
+----
+<1> The domain must be a zone in your Cloudflare account.
+
+[source,go]
+----
+func main() {
+	fmt.Println("hello")
+}
+----
+
+== Admonitions
+
+NOTE: A note carries background a reader may need.
+
+TIP: A tip shortens a task.
+
+IMPORTANT: Important text changes what the reader does next.
+
+WARNING: A warning prevents a mistake that costs time.
+
+CAUTION: A caution prevents a mistake that loses data.
+
+== Containers
+
+.A sidebar
+****
+Sidebars hold an aside that does not belong in the flow.
+****
+
+====
+An example block frames a worked example.
+====
+
+[quote,A reader]
+____
+Quotes are set in from a rule.
+____
+
+=== A third-level heading
+
+==== A fourth-level heading
+
+Text under it.

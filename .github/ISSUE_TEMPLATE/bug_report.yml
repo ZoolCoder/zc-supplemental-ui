@@ -1,0 +1,33 @@
+name: Bug report
+description: Something renders or behaves wrongly on a site or in a PDF.
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Bundle version
+      description: The release tag in your playbook's ui.bundle.url.
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and width
+      description: For example "Safari 19, 390px". For a PDF, the viewer.
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where it shows
+      multiple: true
+      options: [light theme, dark theme, phone width, search, keyboard, screen reader, print, PDF]
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: A screenshot and a link to the page help a great deal.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected

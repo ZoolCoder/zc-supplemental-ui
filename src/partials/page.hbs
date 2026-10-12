@@ -1,0 +1,22 @@
+<div class="docgrid">
+<article class="doc">
+{{> crumbs}}
+<header class="doc-h">
+{{#with page.title}}
+  <h1 class="pg">{{{this}}}</h1>
+{{/with}}
+{{#with page.description}}
+  <p class="sub">{{{this}}}</p>
+{{/with}}
+</header>
+{{{page.contents}}}
+{{> pagination}}
+{{#with page.editUrl}}
+<p class="doc-f"><a href="{{{this}}}">{{{icon "edit"}}}Edit this page</a></p>
+{{/with}}
+</article>
+<aside class="toc" data-levels="{{or page.attributes.toclevels 2}}" aria-labelledby="zc-toc-h" hidden>
+  <p class="navh" id="zc-toc-h">On this page</p>
+  <nav class="toc-menu"></nav>
+</aside>
+</div>

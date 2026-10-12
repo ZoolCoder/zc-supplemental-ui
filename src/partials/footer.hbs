@@ -1,0 +1,12 @@
+<footer class="foot">
+  <div class="foot-in">
+    <span class="foot-brand">{{> mark}}<span>{{site.title}}{{#with page.attributes.zc-owner}} · by <a href="{{{or @root.page.attributes.zc-site '#'}}}">{{this}}</a>{{/with}}</span></span>
+    <span class="grow"></span>
+{{#with page.attributes.zc-repo}}
+    <a href="{{{this}}}">Source</a>
+    <a href="{{{this}}}/issues">Issues</a>
+    <a href="{{{this}}}/releases">Releases</a>
+{{/with}}
+    <span class="muted">{{or page.attributes.zc-license 'MIT licensed'}} · © {{year}}</span>
+  </div>
+</footer>

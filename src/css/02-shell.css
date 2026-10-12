@@ -1,0 +1,174 @@
+/* 02 shell: the toolshell frame (sidebar, sticky header, menus, dialogs),
+   ported from toolshell.css with the admin-only parts left out. Selectors
+   follow toolshell's names so a fix there can be carried over line by line. */
+
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(var(--hdr-h) + 16px);-webkit-text-size-adjust:100%}
+body.locked{overflow:hidden}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--fg);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased;position:relative;isolation:isolate}
+/* the light field: soft blue blooms and an arc over a grid that fades out */
+body::before,body::after{content:"";position:fixed;pointer-events:none;z-index:-1}
+body::before{inset:-6%;background:radial-gradient(circle at 68% 8%,transparent 0 27%,var(--arc) 27.1% 27.25%,transparent 27.4%),radial-gradient(60% 50% at 70% 0%,var(--bloom1),transparent 70%),radial-gradient(40% 40% at 95% 24%,var(--bloom2),transparent 70%),radial-gradient(45% 45% at 8% 75%,var(--bloom3),transparent 70%);animation:drift 24s linear infinite alternate}
+body::after{inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 72% 10%,#000 10%,transparent 75%);mask-image:radial-gradient(ellipse 70% 60% at 72% 10%,#000 10%,transparent 75%)}
+@keyframes drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-3%,2%,0)}}
+@keyframes pop{from{opacity:0;transform:translateY(-4px) scale(.98)}to{opacity:1;transform:none}}
+a{color:var(--acc);text-decoration:none}
+a:hover{color:var(--acc-hover);text-decoration:underline}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+code,kbd,pre{font-family:var(--mono)}
+kbd{font-size:11px;line-height:1;padding:3px 5px;border:1px solid var(--line2);border-bottom-width:2px;border-radius:4px;background:var(--surface);color:var(--fg);white-space:nowrap}
+.muted{color:var(--muted)}
+.skip{position:absolute;inset-inline-start:8px;top:8px;transform:translateY(-200%);z-index:90;background:var(--surface);padding:8px 12px;border-radius:8px;border:1px solid var(--line2)}
+.skip:focus{transform:none}
+.grow{flex:1}
+
+/* buttons */
+button,.btn{font:inherit;font-size:13px;font-weight:600;height:36px;border-radius:9px;border:1px solid var(--line2);color:var(--fg);background:var(--raised);padding:0 14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;box-shadow:var(--hl);transition:border-color .16s var(--ease),color .16s var(--ease),background-color .16s var(--ease)}
+button:hover,.btn:hover{border-color:var(--acc);color:var(--acc);text-decoration:none}
+button:active,.btn:active{transform:translateY(1px)}
+button svg,.btn svg{width:15px;height:15px;flex:none}
+.btn.primary{height:40px;padding:0 18px;background:linear-gradient(180deg,var(--btn-top),var(--btn) 70%);color:var(--btn-ink);border-color:var(--btn-top);box-shadow:var(--btn-glow),inset 0 1px 0 rgba(255,255,255,.22)}
+.btn.primary:hover{color:var(--btn-ink);background:linear-gradient(180deg,color-mix(in srgb,var(--btn-top) 90%,#fff),var(--btn) 80%);box-shadow:var(--btn-glow),0 0 22px rgba(59,130,246,.35)}
+.btn.mini{height:28px;padding:0 10px;font-size:12px;border-radius:7px}
+.iconbtn{width:32px;height:32px;padding:0;flex:none;display:inline-flex;align-items:center;justify-content:center;background:none;border:1px solid transparent;color:var(--muted);border-radius:8px;box-shadow:none}
+.iconbtn:hover{background:var(--subtle);color:var(--fg);border-color:transparent}
+.iconbtn svg{width:16px;height:16px}
+
+/* shell: a sticky sidebar beside the page; on phones it slides in */
+.shell{display:flex;min-height:100vh}
+.side{width:var(--side-w);flex:none;padding:18px 12px;display:flex;flex-direction:column;gap:16px;background:color-mix(in srgb,var(--side) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-inline-end:1px solid var(--line);position:sticky;top:0;height:100vh;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;view-transition-name:zc-side}
+.sidetop{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;color:var(--fg);padding:2px 6px;min-width:0}
+.brand:hover{text-decoration:none;color:var(--fg)}
+.mark{width:30px;height:30px;flex:none}
+.mark .ink{fill:currentColor}.mark .spark{fill:var(--btn-top)}
+.side .brand .mark{filter:drop-shadow(var(--acc-glow))}
+.brand .word{font-weight:700;font-size:18px;letter-spacing:-.01em;line-height:1.1;white-space:nowrap}
+.brand .word small{display:block;font-size:11px;font-weight:500;color:var(--muted);letter-spacing:0}
+.sideclose,.scrim,.drawer,.hdr-brand{display:none}
+.docnav{display:flex;flex-direction:column;gap:2px}
+.navh{font-size:10px;font-weight:650;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:14px 10px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.docnav>.navh:first-child{margin-top:4px}
+.docnav a{display:flex;align-items:center;gap:8px;color:var(--muted);min-height:36px;padding:7px 10px;border-radius:9px;font-size:13.5px;font-weight:500;line-height:1.35;border:1px solid transparent;position:relative;transition:color .18s var(--ease),background-color .18s var(--ease),border-color .18s var(--ease),box-shadow .18s var(--ease)}
+.docnav a.d1{padding-inline-start:22px}.docnav a.d2{padding-inline-start:34px;font-size:13px}
+.docnav a svg{width:13px;height:13px;flex:none;color:var(--dim)}
+.docnav a .lbl{flex:1;min-width:0}
+.docnav a:hover{color:var(--fg);background:var(--subtle);text-decoration:none}
+.docnav a.on{color:var(--fg);background:linear-gradient(90deg,var(--acc-sub),color-mix(in srgb,var(--acc-sub) 55%,transparent));border-color:var(--acc-line);box-shadow:var(--nav-glow),var(--hl)}
+.docnav a.on::before{content:"";position:absolute;inset-inline-start:-12px;top:8px;bottom:8px;width:3px;border-start-end-radius:3px;border-end-end-radius:3px;background:var(--acc);box-shadow:var(--acc-glow)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:12px;padding-top:8px}
+.led{display:flex;align-items:center;gap:9px;padding:6px 8px;font-size:12px;font-weight:500;color:var(--fg);border-radius:9px}
+a.led:hover{background:var(--subtle);text-decoration:none;color:var(--fg)}
+.led small{display:block;font-size:11px;color:var(--muted);font-weight:400}
+.led i{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:var(--ok-glow);flex:none;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 45%,transparent),var(--ok-glow)}50%{box-shadow:0 0 0 5px transparent,var(--ok-glow)}}
+.body{flex:1;min-width:0;display:flex;flex-direction:column}
+main{flex:1;width:100%;max-width:1320px;margin:0 auto;padding:28px 40px 40px}
+main:focus{outline:none}
+
+/* header: search, links and the theme menu, sticky over the page */
+.hdr{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;min-height:var(--hdr-h);padding:10px 40px;background:color-mix(in srgb,var(--bg) 72%,transparent);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent);view-transition-name:zc-hdr}
+.hbtn{height:38px;padding:0 12px;gap:8px;background:var(--field);border-color:var(--line);color:var(--fg);font-weight:500;text-decoration:none}
+a.hbtn:hover{color:var(--acc)}
+.hbtn svg{width:16px;height:16px}
+.hbtn .chev svg{width:12px;height:12px;transform:rotate(90deg);transition:transform .18s var(--ease);color:var(--muted)}
+.hbtn:has(+ .menu:popover-open){border-color:var(--acc-line);box-shadow:var(--ring)}
+.hbtn:has(+ .menu:popover-open) .chev svg{transform:rotate(-90deg)}
+.hbtn.theme>span{display:inline-flex}
+.hbtn.theme .t-light,.hbtn.theme .t-dark,.hbtn.theme .t-auto{display:none}
+[data-theme="light"] .hbtn.theme .t-light,[data-theme="dark"] .hbtn.theme .t-dark,[data-theme="auto"] .hbtn.theme .t-auto{display:inline-flex}
+
+/* search: the field looks like toolshell's palette hint and really is the input */
+.search{position:relative;display:flex;align-items:center;gap:8px;width:min(440px,100%);height:38px;padding-inline:10px 8px;color:var(--muted);background:var(--field);border:1px solid var(--line);border-radius:9px;box-shadow:var(--hl);transition:border-color .16s var(--ease),box-shadow .16s var(--ease)}
+.search>svg{width:15px;height:15px;flex:none}
+.search:focus-within{border-color:var(--acc-line);box-shadow:var(--ring)}
+.search input{flex:1;min-width:0;height:100%;border:0;background:none;color:var(--fg);font:inherit;font-size:13.5px;outline:none;padding:0}
+.search input::placeholder{color:var(--muted)}
+.search input::-webkit-search-cancel-button{display:none}
+.search input:disabled{cursor:progress}
+.search:focus-within kbd{display:none}
+
+/* menus: popovers anchored under the button that opens them */
+.menu{position:fixed;inset:auto;margin:6px 0 0;min-width:240px;max-width:calc(100vw - 24px);padding:6px;border:1px solid var(--line2);border-radius:14px;background:var(--pop);color:var(--fg);box-shadow:var(--pop-shadow)}
+.menu:popover-open{display:flex;flex-direction:column;gap:1px;animation:pop .14s var(--ease-in)}
+[popovertarget=zc-menu]{anchor-name:--zc-menu}#zc-menu{position-anchor:--zc-menu}
+@supports (position-area:block-end){.menu{position-area:block-end span-inline-start;position-try-fallbacks:flip-inline}}
+@supports not (position-area:block-end){.menu{top:58px;inset-inline-end:16px}}
+.menu a,.menu button{display:flex;align-items:center;gap:10px;width:100%;height:auto;min-height:36px;padding:7px 10px;border-radius:9px;border:1px solid transparent;background:none;box-shadow:none;color:var(--fg);font-size:13px;font-weight:500;justify-content:flex-start;text-align:start}
+.menu a:hover,.menu button:hover,.menu a:focus-visible,.menu button:focus-visible{background:var(--subtle);color:var(--fg);text-decoration:none;border-color:transparent;outline:none}
+.menu a svg,.menu button svg{width:16px;height:16px;flex:none;color:var(--muted)}
+.menu a>span,.menu button>span{flex:1}
+.menu-k{font-size:10px;font-weight:650;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:6px 10px 6px}
+.menu .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:3px;margin:0 4px 6px;background:var(--field);border:1px solid var(--line);border-radius:11px}
+.menu .seg button{flex-direction:column;gap:3px;min-height:0;padding:7px 0;font-size:11.5px;justify-content:center;text-align:center}
+.menu .seg button>span{flex:none}
+.menu .seg button.on{background:var(--acc-sub);border-color:var(--acc-line);box-shadow:var(--nav-glow);color:var(--acc)}
+.menu .seg button.on svg{color:var(--acc)}
+
+/* dialogs */
+dialog.palette{width:min(600px,calc(100vw - 32px));margin:12vh auto auto;padding:0;border:1px solid var(--acc-line);border-radius:18px;background:var(--pop);color:var(--fg);box-shadow:var(--pop-shadow);overflow:hidden}
+dialog.palette[open]{animation:pop .18s var(--ease-in);box-shadow:var(--pop-shadow),var(--edge)}
+dialog.palette::backdrop{background:var(--scrim);backdrop-filter:blur(3px)}
+dialog.keys{padding:20px 22px;width:min(460px,calc(100vw - 32px))}
+dialog.keys h2{font-size:16px;font-weight:650;margin:0 0 14px}
+dialog.keys dl{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin:0 0 16px;font-size:13.5px;align-items:center}
+dialog.keys dt{white-space:nowrap}
+dialog.keys dd{margin:0;color:var(--muted)}
+dialog.keys form{display:flex;justify-content:flex-end}
+
+/* footer */
+.foot{border-top:1px solid color-mix(in srgb,var(--line) 70%,transparent);margin-top:auto}
+.foot-in{max-width:1320px;margin:0 auto;padding:18px 40px;display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.foot-brand{display:inline-flex;align-items:center;gap:8px;color:var(--fg);font-weight:600}
+.foot-brand .mark{width:20px;height:20px}
+.foot-brand a{color:inherit}
+.foot a{color:var(--muted)}.foot a:hover{color:var(--acc)}
+
+/* not found */
+.errpage{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:12vh 16px}
+.errcode{font-size:clamp(88px,16vw,148px);font-weight:800;letter-spacing:-.06em;line-height:1;background:linear-gradient(180deg,var(--acc),color-mix(in srgb,var(--acc) 10%,transparent));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(var(--acc-glow))}
+.errpage .pg{margin:0}
+.errpage .sub{max-width:32rem}
+.errpage .acts{margin-top:14px}
+
+/* phones and narrow windows: the sidebar becomes a drawer */
+@media (max-width:1000px){
+  .drawer,.hdr-brand{display:inline-flex}
+  .hdr-brand .mark{width:26px;height:26px}.hdr-brand .brand .word{font-size:16px}.hdr-brand .brand .word small{display:none}
+  .side{position:fixed;inset-block:0;inset-inline-start:0;z-index:40;width:min(300px,86vw);transform:translateX(-102%);transition:transform .22s ease;box-shadow:var(--pop-shadow);visibility:hidden}
+  .shell.open .side{transform:none;visibility:visible}
+  .scrim{display:block;position:fixed;inset:0;z-index:30;background:var(--scrim);opacity:0;transition:opacity .22s}
+  .shell.open .scrim{opacity:1}.scrim[hidden]{display:none}
+  .sideclose{display:inline-flex}
+  .hdr{padding:8px 16px;gap:8px}
+  main{padding:24px 24px 32px}
+  .foot-in{padding:16px 24px}
+}
+@media (max-width:720px){
+  .search{width:38px;padding:0;justify-content:center;flex:none;cursor:text}
+  .search kbd{display:none}
+  .search input{position:absolute;inset:0;padding-inline:36px 10px;opacity:0}
+  .search>svg{position:relative;z-index:1;pointer-events:none}
+  .search:focus-within{position:absolute;inset-inline:12px;width:auto;z-index:25;background:var(--pop);padding-inline:10px}
+  .search:focus-within input{position:static;opacity:1;padding:0}
+  .hbtn .lbl,.hbtn .chev{display:none}
+  .hbtn{width:38px;padding:0;flex:none}
+  .hdr .grow{display:none}
+  .hdr-brand{flex:1;min-width:0}
+  .hdr-brand .brand{min-width:0;padding:2px 0}
+  .hdr-brand .brand .word{overflow:hidden;text-overflow:ellipsis}
+  main{padding:20px 16px 28px}
+  .foot-in{padding:16px}
+}
+
+/* pages cross-fade; the sidebar and header hold still */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.16s}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+  @view-transition{navigation:none}
+}
+@media (forced-colors:active){
+  .btn,button,.search,.menu{border:1px solid CanvasText}
+  .docnav a.on,.menu .seg button.on{outline:2px solid CanvasText;outline-offset:-2px}
+}

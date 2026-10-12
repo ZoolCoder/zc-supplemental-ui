@@ -1,0 +1,14 @@
+/* 04 highlight: highlight.js token colours from the theme tokens, so code
+   follows light and dark without a second stylesheet. */
+.hljs{color:var(--code-fg);background:none}
+.hljs-comment,.hljs-quote{color:var(--syn-comment);font-style:italic}
+.hljs-keyword,.hljs-selector-tag,.hljs-literal,.hljs-built_in,.hljs-type,.hljs-doctag{color:var(--syn-keyword)}
+.hljs-string,.hljs-regexp,.hljs-addition,.hljs-symbol,.hljs-template-tag{color:var(--syn-string)}
+.hljs-number,.hljs-bullet,.hljs-link{color:var(--syn-number)}
+.hljs-title,.hljs-section,.hljs-function .hljs-title,.hljs-title.function_,.hljs-name{color:var(--syn-title)}
+.hljs-attr,.hljs-attribute,.hljs-variable,.hljs-template-variable,.hljs-property,.hljs-selector-class,.hljs-selector-id{color:var(--syn-attr)}
+.hljs-meta,.hljs-meta .hljs-keyword,.hljs-subst{color:var(--syn-meta)}
+.hljs-deletion{color:var(--syn-deleted)}
+.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
+/* console: the prompt steps back, the command reads as the main thing */
+code[data-lang=console] .hljs-meta.prompt_,code[data-lang=console] .hljs-meta{color:var(--syn-meta);user-select:none}

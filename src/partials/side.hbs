@@ -1,0 +1,15 @@
+<aside class="side" id="zc-side" aria-label="Documentation">
+  <div class="sidetop">
+    {{> brand}}
+    <button class="iconbtn sideclose" type="button" data-drawer-close aria-label="Close menu">{{{icon "close"}}}</button>
+  </div>
+  <nav class="docnav" aria-label="Pages">
+{{#each page.navigation}}
+    {{#if ./content}}<p class="navh">{{{./content}}}</p>{{/if}}
+{{> nav-items items=./items depth=0}}
+{{/each}}
+  </nav>
+  <div class="side-foot">
+    {{#with page.attributes.zc-repo}}<a class="led" href="{{{this}}}"><i></i><span class="lbl">Open source<small>{{or @root.page.attributes.zc-license 'MIT licensed'}}</small></span></a>{{/with}}
+  </div>
+</aside>

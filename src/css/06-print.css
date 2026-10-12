@@ -1,0 +1,15 @@
+/* 06 print: the page alone, on white, with link targets spelled out. The PDF
+   of the whole guide comes from asciidoctor-pdf; this is for one page. */
+@media print{
+  :root{color-scheme:light}
+  body{background:#fff;color:#111;font-size:11pt}
+  body::before,body::after,.side,.hdr,.toc,.foot,.pager,.doc-f,.skip,.scrim,.copy,dialog{display:none!important}
+  .shell,.body,main,.docgrid{display:block;padding:0;margin:0;max-width:none}
+  .doc{animation:none}
+  .doc a{color:inherit;text-decoration:underline}
+  .doc .paragraph a[href^="http"]::after{content:" (" attr(href) ")";font-size:.85em;color:#555}
+  .doc pre,.doc .tw,.doc .admonitionblock tr,.doc .imageblock img,.doc .exampleblock>.content,.doc .sidebarblock>.content{box-shadow:none;break-inside:avoid}
+  .doc pre{white-space:pre-wrap;border-color:#ccc;background:#f7f7f7}
+  .doc h2,.doc h3{break-after:avoid}
+  .doc .anchor,.doc .listingblock>.content::before{display:none}
+}

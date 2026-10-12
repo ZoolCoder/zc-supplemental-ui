@@ -1,0 +1,68 @@
+/* 01 tokens: the toolshell palette, copied from toolshell/static/toolshell.css
+   (v0.2.0) so the docs and the admin pages read as one product. Change the
+   colours there first, then copy them here. Light is the default; dark applies
+   when chosen, or under data-theme="auto" when the system asks for it. */
+:root{
+  --bg:#F4F7FC;--side:#FFFFFF;--surface:#FFFFFF;--raised:#F8FAFF;--pop:#FFFFFF;--thead:#F1F5FB;--subtle:#EEF2F8;--line:#DCE4F0;--line2:#B8C8DD;--field:#F8FAFC;
+  --fg:#131A27;--muted:#46566D;--dim:#63738A;
+  --acc:#2563EB;--acc-hover:#1D4ED8;--acc-sub:#EAF2FF;--acc-line:#9DBEFF;--btn:#2563EB;--btn-top:#3B82F6;--btn-ink:#FFFFFF;
+  --ok:#047857;--ok-sub:#D1FAE5;--warn:#92400E;--warn-sub:#FEF3C7;--bad:#BE123C;--bad-sub:#FFE4E6;
+  --man:#5B21B6;--man-sub:#EDE9FE;--info:#1D4ED8;--info-sub:#DBEAFE;
+  --p-blue:#1D4ED8;--p-blue-sub:#DBEAFE;--p-amber:#9A3412;--p-amber-sub:#FFEDD5;--p-sky:#075985;--p-sky-sub:#E0F2FE;
+  --shadow:0 4px 16px rgba(24,48,84,.045);--lift:0 8px 24px rgba(24,48,84,.07);--pop-shadow:0 20px 64px rgba(24,48,84,.16);--hl:inset 0 1px 0 rgba(255,255,255,.9);
+  --edge:0 0 16px rgba(59,130,246,.08);--nav-glow:0 0 12px rgba(59,130,246,.07);--btn-glow:0 3px 12px rgba(37,99,235,.18);
+  --ok-glow:0 0 8px rgba(4,120,87,.12);--bad-glow:0 0 8px rgba(190,18,60,.10);--acc-glow:0 0 8px rgba(59,130,246,.12);
+  --bloom1:rgba(59,130,246,.07);--bloom2:rgba(96,165,250,.045);--bloom3:rgba(37,99,235,0);--grid:rgba(37,99,235,.045);--arc:rgba(37,99,235,.07);
+  --ring:0 0 0 3px rgba(37,99,235,.22);--scrim:rgba(15,23,42,.4);
+  color-scheme:light;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+  --ease:cubic-bezier(.2,0,0,1);--ease-in:cubic-bezier(.16,1,.3,1);--ease-out:cubic-bezier(.4,0,1,1);
+}
+:root[data-theme="dark"]{
+    --bg:#070B12;--side:#090E17;--surface:#0D1625;--raised:#111D30;--pop:#101B2C;--thead:#101B2B;--subtle:#132034;--line:#1B2A40;--line2:#2A4263;--field:#0A1220;
+    --fg:#F1F5FC;--muted:#A4B3C9;--dim:#75869F;
+    --acc:#60A5FA;--acc-hover:#93C5FD;--acc-sub:#102B53;--acc-line:#2059A8;--btn:#2563EB;--btn-top:#3B82F6;--btn-ink:#FFFFFF;
+    --ok:#34D399;--ok-sub:#063B30;--warn:#FBBF24;--warn-sub:#422E0B;--bad:#FB7185;--bad-sub:#451D2A;
+    --man:#C4B5FD;--man-sub:#2D2450;--info:#60A5FA;--info-sub:#102B53;
+    --p-blue:#93C5FD;--p-blue-sub:#153B75;--p-amber:#FDBA74;--p-amber-sub:#422B12;--p-sky:#7DD3FC;--p-sky-sub:#153D52;
+    --shadow:0 8px 24px rgba(0,0,0,.20);--lift:0 12px 32px rgba(0,0,0,.26);--pop-shadow:0 24px 80px rgba(0,0,0,.55);--hl:inset 0 1px 0 rgba(255,255,255,.045);
+    --edge:0 0 18px rgba(59,130,246,.16);--nav-glow:0 0 16px rgba(59,130,246,.15);--btn-glow:0 4px 16px rgba(37,99,235,.25);
+    --ok-glow:0 0 12px rgba(52,211,153,.28);--bad-glow:0 0 12px rgba(251,113,133,.22);--acc-glow:0 0 12px rgba(59,130,246,.30);
+    --bloom1:rgba(29,78,216,.19);--bloom2:rgba(59,130,246,.10);--bloom3:rgba(37,99,235,.07);--grid:rgba(96,165,250,.07);--arc:rgba(59,130,246,.12);
+    --ring:0 0 0 3px rgba(96,165,250,.35);--scrim:rgba(2,6,14,.62);
+    color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){
+  :root[data-theme="auto"]{
+    --bg:#070B12;--side:#090E17;--surface:#0D1625;--raised:#111D30;--pop:#101B2C;--thead:#101B2B;--subtle:#132034;--line:#1B2A40;--line2:#2A4263;--field:#0A1220;
+    --fg:#F1F5FC;--muted:#A4B3C9;--dim:#75869F;
+    --acc:#60A5FA;--acc-hover:#93C5FD;--acc-sub:#102B53;--acc-line:#2059A8;--btn:#2563EB;--btn-top:#3B82F6;--btn-ink:#FFFFFF;
+    --ok:#34D399;--ok-sub:#063B30;--warn:#FBBF24;--warn-sub:#422E0B;--bad:#FB7185;--bad-sub:#451D2A;
+    --man:#C4B5FD;--man-sub:#2D2450;--info:#60A5FA;--info-sub:#102B53;
+    --p-blue:#93C5FD;--p-blue-sub:#153B75;--p-amber:#FDBA74;--p-amber-sub:#422B12;--p-sky:#7DD3FC;--p-sky-sub:#153D52;
+    --shadow:0 8px 24px rgba(0,0,0,.20);--lift:0 12px 32px rgba(0,0,0,.26);--pop-shadow:0 24px 80px rgba(0,0,0,.55);--hl:inset 0 1px 0 rgba(255,255,255,.045);
+    --edge:0 0 18px rgba(59,130,246,.16);--nav-glow:0 0 16px rgba(59,130,246,.15);--btn-glow:0 4px 16px rgba(37,99,235,.25);
+    --ok-glow:0 0 12px rgba(52,211,153,.28);--bad-glow:0 0 12px rgba(251,113,133,.22);--acc-glow:0 0 12px rgba(59,130,246,.30);
+    --bloom1:rgba(29,78,216,.19);--bloom2:rgba(59,130,246,.10);--bloom3:rgba(37,99,235,.07);--grid:rgba(96,165,250,.07);--arc:rgba(59,130,246,.12);
+    --ring:0 0 0 3px rgba(96,165,250,.35);--scrim:rgba(2,6,14,.62);
+    color-scheme:dark;
+  }
+}
+
+/* tokens only the docs use: syntax colours and the reading measure */
+:root{
+  --measure:46rem;--side-w:272px;--toc-w:232px;--hdr-h:60px;
+  --sans:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --code-bg:#F6F8FC;--code-line:#E3E9F3;--code-fg:#1E293B;
+  --syn-comment:#64748B;--syn-keyword:#7C3AED;--syn-string:#047857;--syn-number:#B45309;--syn-title:#1D4ED8;--syn-attr:#0369A1;--syn-meta:#94A3B8;--syn-deleted:#BE123C;
+}
+:root[data-theme="dark"]{
+  --code-bg:#0A1220;--code-line:#1B2A40;--code-fg:#DCE6F5;
+  --syn-comment:#7A8BA3;--syn-keyword:#C4B5FD;--syn-string:#6EE7B7;--syn-number:#FCD34D;--syn-title:#93C5FD;--syn-attr:#7DD3FC;--syn-meta:#5B6B82;--syn-deleted:#FDA4AF;
+}
+@media (prefers-color-scheme:dark){
+  :root[data-theme="auto"]{
+    --code-bg:#0A1220;--code-line:#1B2A40;--code-fg:#DCE6F5;
+    --syn-comment:#7A8BA3;--syn-keyword:#C4B5FD;--syn-string:#6EE7B7;--syn-number:#FCD34D;--syn-title:#93C5FD;--syn-attr:#7DD3FC;--syn-meta:#5B6B82;--syn-deleted:#FDA4AF;
+  }
+}

@@ -1,0 +1,29 @@
+# Builds the preview site against the bundle in build/. Run `npm run preview`.
+antora:
+  extensions:
+    - require: '@antora/lunr-extension'
+site:
+  title: zc-supplemental-ui
+  start_page: preview::index.adoc
+content:
+  sources:
+    - url: ./..
+      start_path: preview
+      branches: HEAD
+      edit_url: false
+ui:
+  bundle:
+    url: ./../build/ui-bundle.zip
+asciidoc:
+  attributes:
+    experimental: ''
+    idprefix: ''
+    idseparator: '-'
+    source-highlighter: highlight.js
+    page-zc-repo: https://github.com/zoolcoder/zc-supplemental-ui
+    page-zc-site: https://zoolcoder.com/
+    page-zc-site-name: zoolcoder.com
+    page-zc-owner: ZoolCoder
+    page-zc-pdf: preview/_exports/index.pdf
+output:
+  dir: ./../build/preview

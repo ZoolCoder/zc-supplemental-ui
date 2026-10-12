@@ -1,0 +1,13 @@
+# One PDF of the whole preview component, rendered with the theme in pdf/.
+root_level: 0
+build:
+  command: bundle exec asciidoctor-pdf -a pdf-themesdir=../pdf -a pdf-theme=zc
+  publish: true
+asciidoc:
+  attributes:
+    doctype: book
+    toc: ''
+    toclevels: 2
+    source-highlighter: rouge
+    title-page: ''
+    zc-owner: ZoolCoder

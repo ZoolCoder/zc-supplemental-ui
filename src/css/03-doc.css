@@ -1,0 +1,177 @@
+/* 03 doc: the reading column, the table of contents and every block
+   Asciidoctor emits, drawn with toolshell's surfaces and type scale. */
+
+.docgrid{display:grid;grid-template-columns:minmax(0,var(--measure)) var(--toc-w);gap:56px;justify-content:center;align-items:start}
+.doc{min-width:0;animation:rise .42s var(--ease-in) both}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* page header */
+.doc .crumb ol,.crumb ol{display:flex;flex-wrap:wrap;gap:4px;list-style:none;margin:0 0 10px;padding:0;font-size:12.5px;color:var(--muted)}
+.doc .crumb li{margin:0}
+.crumb li+li::before{content:"/";margin-inline-end:4px;color:var(--dim)}
+.crumb a,.doc .crumb a{color:var(--muted);text-decoration:none}.crumb a:hover{color:var(--acc)}
+.doc-h{padding-bottom:22px;margin-bottom:8px;border-bottom:1px solid var(--line)}
+.pg{font-size:34px;font-weight:750;letter-spacing:-.035em;line-height:1.15;margin:0;overflow-wrap:anywhere;color:var(--fg)}
+.sub{color:var(--muted);font-size:17px;line-height:1.55;margin:10px 0 0}
+
+/* the table of contents rides along on wide screens */
+.toc{position:sticky;top:calc(var(--hdr-h) + 24px);max-height:calc(100vh - var(--hdr-h) - 48px);overflow-y:auto;scrollbar-width:thin;padding-inline-start:16px;border-inline-start:1px solid var(--line);font-size:13px}
+.toc[hidden]{display:block;visibility:hidden}
+.toc .navh{margin:2px 0 8px}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc li a{display:block;padding:4px 0;color:var(--muted);line-height:1.4;position:relative;transition:color .16s var(--ease)}
+.toc li.l2 a{padding-inline-start:12px;font-size:12.5px}
+.toc li a:hover{color:var(--fg);text-decoration:none}
+.toc li a.on{color:var(--acc);font-weight:600}
+.toc li a.on::before{content:"";position:absolute;inset-inline-start:-17px;top:5px;bottom:5px;width:2px;border-radius:2px;background:var(--acc);box-shadow:var(--acc-glow)}
+
+/* headings */
+.doc h2,.doc h3,.doc h4,.doc h5,.doc h6{color:var(--fg);font-weight:700;letter-spacing:-.02em;line-height:1.25;margin:0;position:relative;scroll-margin-top:calc(var(--hdr-h) + 16px)}
+.doc h2{font-size:24px;margin-top:44px;padding-top:4px}
+.doc .sect1:first-child>h2{margin-top:28px}
+.doc h3{font-size:19px;margin-top:32px}
+.doc h4{font-size:16px;margin-top:26px}
+.doc h5,.doc h6{font-size:14px;margin-top:22px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.doc .anchor{position:absolute;inset-inline-start:-1.1em;width:1em;text-align:center;color:var(--dim);opacity:0;text-decoration:none;font-weight:500;transition:opacity .16s var(--ease)}
+.doc .anchor::before{content:"#"}
+.doc h2:hover .anchor,.doc h3:hover .anchor,.doc h4:hover .anchor,.doc .anchor:focus-visible{opacity:1}
+.doc .anchor:hover{color:var(--acc)}
+
+/* blocks: one rhythm for all of them */
+.doc p{margin:0}
+.doc :is(.paragraph,.ulist,.olist,.dlist,.hdlist,.colist,.admonitionblock,.listingblock,.literalblock,.imageblock,.tw,.exampleblock,.sidebarblock,.quoteblock,.verseblock,.openblock,.videoblock,.stemblock){margin:16px 0 0}
+.doc .openblock>.content>:first-child,.doc .sectionbody>:first-child{margin-top:16px}
+.doc .title{font-size:12.5px;font-weight:650;color:var(--muted);margin:0 0 6px}
+.doc .lead p,.doc .paragraph.lead{font-size:17px;color:var(--fg)}
+.doc strong{font-weight:650;color:var(--fg)}
+.doc mark{background:var(--warn-sub);color:inherit;padding:0 2px;border-radius:3px}
+.doc hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+.doc a{text-underline-offset:2px}
+.doc .paragraph a,.doc li a,.doc td a,.doc dd a{text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--acc) 35%,transparent)}
+.doc .paragraph a:hover,.doc li a:hover,.doc td a:hover,.doc dd a:hover{text-decoration-color:currentColor}
+
+/* inline code and keys */
+.doc :not(pre)>code{font-size:.86em;background:var(--subtle);border:1px solid var(--line);padding:1px 5px;border-radius:6px;overflow-wrap:anywhere;color:var(--fg)}
+.doc a>code{color:var(--acc)}
+.doc .keyseq{white-space:nowrap}
+.doc .keyseq kbd:not(:first-child){margin-inline-start:2px}
+
+/* lists */
+.doc ul,.doc ol{margin:0;padding-inline-start:1.4rem}
+.doc li{margin:6px 0 0}
+.doc li::marker{color:var(--dim)}
+.doc li>p{margin:0}
+.doc ul ul,.doc ol ol,.doc ul ol,.doc ol ul{margin-top:4px}
+.doc .ulist.checklist ul{list-style:none;padding-inline-start:.2rem}
+.doc .ulist.checklist li>p>i,.doc .ulist.checklist input{margin-inline-end:8px}
+
+/* definitions: term on its own line, body set in from a rule */
+.doc .dlist>dl{margin:0}
+.doc dt{font-weight:650;color:var(--fg);margin-top:16px}
+.doc dt:first-child{margin-top:0}
+.doc dd{margin:6px 0 0;padding-inline-start:16px;border-inline-start:2px solid var(--line)}
+.doc dd>:first-child{margin-top:0}
+.doc .hdlist table{border-collapse:collapse}
+.doc .hdlist td{padding:6px 16px 6px 0;vertical-align:top}
+.doc .hdlist1{font-weight:650;white-space:nowrap}
+
+/* code blocks */
+.doc .listingblock>.content,.doc .literalblock>.content{position:relative}
+.doc pre{margin:0;background:var(--code-bg);color:var(--code-fg);border:1px solid var(--code-line);border-radius:12px;padding:14px 16px;font-size:13px;line-height:1.6;overflow-x:auto;tab-size:2;box-shadow:var(--hl)}
+.doc pre code{font-size:inherit;background:none;border:0;padding:0;color:inherit;white-space:pre}
+.doc .listingblock>.content[data-lang]::before{content:attr(data-lang);position:absolute;top:8px;inset-inline-end:12px;font:600 10px/1 var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--dim);transition:opacity .16s var(--ease);pointer-events:none}
+.doc .listingblock .copy{position:absolute;top:6px;inset-inline-end:6px;height:26px;padding:0 9px;font-size:11.5px;border-radius:7px;background:var(--surface);color:var(--muted);opacity:0;transition:opacity .16s var(--ease)}
+.doc .listingblock>.content:hover .copy,.doc .listingblock .copy:focus-visible,.doc .listingblock .copy.on{opacity:1}
+.doc .listingblock>.content:hover::before{opacity:0}
+.doc .listingblock .copy.on{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+@media (hover:none){.doc .listingblock .copy{opacity:1}.doc .listingblock>.content[data-lang]::before{display:none}}
+
+/* callouts: a numbered disc in the code and in the list under it */
+.doc .conum[data-value]{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--acc);color:var(--btn-ink);font:700 10.5px/1 var(--sans);font-style:normal;vertical-align:1px;user-select:none}
+.doc .conum[data-value]::after{content:attr(data-value)}
+.doc .conum[data-value]+b{display:none}
+.doc pre .conum[data-value]{width:16px;height:16px;font-size:9.5px}
+.doc .colist table{border-collapse:collapse}
+.doc .colist td{padding:4px 10px 4px 0;vertical-align:top;font-size:14px}
+
+/* admonitions: toolshell callouts with the label as a chip */
+.doc .admonitionblock>table,.doc .admonitionblock>table>tbody,.doc .admonitionblock tr{display:block}
+.doc .admonitionblock>table{border-collapse:collapse;width:100%}
+.doc .admonitionblock{--tone:var(--info);--tone-sub:var(--info-sub)}
+.doc .admonitionblock.tip{--tone:var(--ok);--tone-sub:var(--ok-sub)}
+.doc .admonitionblock.important{--tone:var(--man);--tone-sub:var(--man-sub)}
+.doc .admonitionblock.warning,.doc .admonitionblock.caution{--tone:var(--warn);--tone-sub:var(--warn-sub)}
+.doc .admonitionblock.caution{--tone:var(--bad);--tone-sub:var(--bad-sub)}
+.doc .admonitionblock tr{padding:14px 16px;border-radius:12px;border:1px solid color-mix(in srgb,var(--tone) 28%,transparent);background:linear-gradient(90deg,color-mix(in srgb,var(--tone-sub) 75%,transparent),color-mix(in srgb,var(--tone-sub) 30%,transparent));box-shadow:var(--hl);position:relative}
+.doc .admonitionblock tr::before{content:"";position:absolute;inset-inline-start:-1px;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--tone)}
+.doc .admonitionblock td{display:block;padding:0}
+.doc .admonitionblock td.icon{margin-bottom:6px}
+.doc .admonitionblock td.icon .title,.doc .admonitionblock td.icon i::after{display:inline-flex;font:650 10.5px/20px var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--tone);margin:0}
+.doc .admonitionblock td.icon i::after{content:attr(title)}
+.doc .admonitionblock td.icon img{display:none}
+.doc .admonitionblock td.content{font-size:14.5px}
+.doc .admonitionblock td.content>.title{color:var(--fg)}
+.doc .admonitionblock td.content>:first-child{margin-top:0}
+
+/* tables: toolshell's quiet rows inside a panel that scrolls on its own */
+.doc .tw{overflow-x:auto;scrollbar-width:thin;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow),var(--hl)}
+.doc table.tableblock{border-collapse:collapse;width:100%;margin:0;font-size:14px}
+.doc table.tableblock>caption{caption-side:top;text-align:start;padding:10px 14px 0;font-size:12.5px;font-weight:650;color:var(--muted)}
+.doc table.tableblock th{text-align:start;color:var(--dim);font-weight:650;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;padding:10px 14px;background:var(--thead);border-bottom:1px solid var(--line);white-space:nowrap}
+.doc table.tableblock td{padding:10px 14px;vertical-align:top;border-bottom:1px solid var(--line);line-height:1.55}
+.doc table.tableblock tr:last-child td{border-bottom:0}
+.doc table.tableblock tbody tr:hover td{background:color-mix(in srgb,var(--acc-sub) 35%,transparent)}
+.doc table.tableblock td>:first-child,.doc table.tableblock td .content>:first-child{margin-top:0}
+.doc table.tableblock td p+p{margin-top:8px}
+.doc table.tableblock td code{white-space:nowrap}
+.doc table.tableblock col{width:auto!important}
+.doc table.tableblock.stretch{width:100%}
+.doc th.halign-right,.doc td.halign-right{text-align:end}
+.doc th.halign-center,.doc td.halign-center{text-align:center}
+
+/* images */
+.doc .imageblock{display:flex;flex-direction:column;align-items:center}
+.doc .imageblock .content{max-width:100%}
+.doc .imageblock img{display:block;max-width:100%;height:auto;border-radius:12px;border:1px solid var(--line);box-shadow:var(--lift)}
+.doc .imageblock>.title{margin:10px 0 0;font-weight:500;font-size:13px;text-align:center}
+.doc .imageblock.text-left{align-items:flex-start}
+.doc span.image img{max-width:100%;vertical-align:middle}
+
+/* containers */
+.doc .exampleblock>.content,.doc .sidebarblock>.content{padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow),var(--hl)}
+.doc .sidebarblock>.content{background:linear-gradient(180deg,var(--raised),var(--surface))}
+.doc .sidebarblock>.content>.title{font-size:14px;color:var(--fg);margin-bottom:4px}
+.doc .exampleblock>.content>:first-child,.doc .sidebarblock>.content>:first-child,.doc .sidebarblock>.content>.title+*{margin-top:0}
+.doc .quoteblock blockquote,.doc .verseblock pre{margin:0;padding:4px 0 4px 18px;border-inline-start:3px solid var(--acc-line);color:var(--muted);font-style:italic;background:none;border-radius:0;box-shadow:none;font-family:inherit;font-size:15px;border-top:0;border-bottom:0;border-inline-end:0}
+.doc .quoteblock .attribution{margin-top:6px;font-size:13px;color:var(--dim)}
+
+/* previous and next */
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:56px}
+.pager a{display:flex;flex-direction:column;gap:2px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow),var(--hl);color:var(--fg);transition:border-color .16s var(--ease),box-shadow .16s var(--ease)}
+.pager a:hover{border-color:var(--acc-line);box-shadow:var(--lift),var(--edge);text-decoration:none}
+.pager small{font-size:11.5px;color:var(--muted)}
+.pager b{font-weight:650;color:var(--acc)}
+.pager .prev small::before{content:"← "}
+.pager .next{grid-column:2;text-align:end}
+.pager .next small::after{content:" →"}
+[dir=rtl] .pager .prev small::before{content:"→ "}[dir=rtl] .pager .next small::after{content:" ←"}
+.doc-f{margin-top:24px;font-size:13px}
+.doc-f a{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+.doc-f a:hover{color:var(--acc)}
+.doc-f svg{width:14px;height:14px}
+
+@media (max-width:1240px){
+  .docgrid{grid-template-columns:minmax(0,var(--measure));gap:0}
+  .toc{display:none}
+}
+@media (max-width:720px){
+  body{font-size:15px}
+  .pg{font-size:27px}
+  .sub{font-size:15.5px}
+  .doc h2{font-size:21px;margin-top:36px}
+  .doc h3{font-size:17px}
+  .doc .anchor{display:none}
+  .pager{grid-template-columns:1fr}
+  .pager .next{grid-column:1}
+  .doc table.tableblock td code{white-space:normal}
+}

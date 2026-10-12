@@ -1,0 +1,31 @@
+name: release
+
+# A tag v* builds the bundle and the PDF theme and attaches both to the
+# GitHub release, where playbooks fetch them by URL.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: version matches the tag
+        run: test "v$(node -p 'require("./package.json").version')" = "$GITHUB_REF_NAME"
+      - run: npm run build
+      - name: publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          notes=$(awk -v v="## $GITHUB_REF_NAME" 'index($0, v) == 1 {on=1; next} /^## /{on=0} on' CHANGELOG.md)
+          gh release create "$GITHUB_REF_NAME" build/ui-bundle.zip build/zc-pdf-theme.zip \
+            --title "$GITHUB_REF_NAME" --notes "$notes"

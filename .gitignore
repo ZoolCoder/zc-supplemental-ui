@@ -1,0 +1,7 @@
+/node_modules/
+/build/
+/.cache/
+/.bundle/
+/vendor/bundle/
+.DS_Store
+/preview/build/

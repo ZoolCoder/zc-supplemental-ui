@@ -1,0 +1,37 @@
+= Tables and lists
+:description: Tables, definition lists and ordered and unordered lists.
+
+== Tables
+
+.Providers
+[cols="1,1,3"]
+|===
+| Provider | Kind | Notes
+
+| Purelymail | mailboxes | Credentials generated and reported once.
+| Microsoft 365 | mailboxes | Needs an Entra app registration with `User.ReadWrite.All`.
+| Cloudflare | routing, sending | Forwarding only, or sending from an application.
+|===
+
+== Lists
+
+* One
+* Two
+** Nested
+* Three
+
+//-
+
+. First
+. Second
+. Third
+
+Term one::
+The definition, which can run to several lines and hold `code`.
+
+Term two::
+Another definition.
+
+.A checklist
+* [x] Done
+* [ ] Not yet

@@ -1,0 +1,10 @@
+{{#each items}}
+{{#if ./url}}
+<a class="d{{../depth}}{{#if (eq ./url @root.page.url)}} on{{/if}}" href="{{#if (eq ./urlType 'internal')}}{{{relativize ./url}}}{{else}}{{{./url}}}{{/if}}"{{#if (eq ./url @root.page.url)}} aria-current="page"{{/if}}><span class="lbl">{{{./content}}}</span>{{#if (eq ./urlType 'external')}}{{{icon "external"}}}{{/if}}</a>
+{{else if ./content}}
+<p class="navh">{{{./content}}}</p>
+{{/if}}
+{{#if ./items.length}}
+{{> nav-items items=./items depth=(increment ../depth)}}
+{{/if}}
+{{/each}}

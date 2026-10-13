@@ -431,6 +431,25 @@
     wrap.appendChild(table)
   })
 
+  // A code block, table or diagram wider than the page scrolls in its own
+  // box; a box that scrolls takes keyboard focus, so it scrolls without a
+  // mouse. Checked again when the window changes size.
+  var scrollers = $$('.doc pre, .doc .tw, .doc .imageblock.diagram > .content')
+  function markScrollers () {
+    scrollers.forEach(function (el) {
+      if (el.scrollWidth > el.clientWidth + 1) {
+        el.tabIndex = 0
+        el.setAttribute('data-zc-scroll', '')
+      } else if (el.hasAttribute('data-zc-scroll')) {
+        el.removeAttribute('tabindex')
+        el.removeAttribute('data-zc-scroll')
+      }
+    })
+  }
+  var resizing
+  markScrollers()
+  window.addEventListener('resize', function () { clearTimeout(resizing); resizing = setTimeout(markScrollers, 150) })
+
   // Asciidoctor's heading anchors are empty links; give each a name.
   $$('.doc a.anchor').forEach(function (a) {
     var heading = a.parentNode.cloneNode(true)

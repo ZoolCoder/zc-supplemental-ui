@@ -94,4 +94,6 @@ dl{margin:0 0 3mm}dt{font-weight:700;margin-top:2mm}dd{margin:0;margin-inline-st
 .imageblock{margin:0 0 4mm;text-align:center;break-inside:avoid}
 .imageblock img,.imageblock svg{max-width:100%;height:auto}
 .imageblock svg{direction:ltr}
+/* the phone drawing of a [.wide]/[.narrow] diagram pair stays off paper */
+.imageblock.narrow{display:none}
 hr{border:0;border-top:1px solid var(--line);margin:6mm 0}

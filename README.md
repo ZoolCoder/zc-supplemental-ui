@@ -33,6 +33,8 @@ docs look like one product.
 - Tabs, from [@asciidoctor/tabs](https://github.com/asciidoctor/asciidoctor-tabs),
   with keyboard support, and diagram classes for inline SVG that follow the
   theme.
+- A Content-Security-Policy and a Referrer-Policy as `<meta>` tags, which
+  work on hosts that cannot send headers, such as GitHub Pages.
 - A PDF button, and a theme that gives the PDF the same mark and colours.
 - No external requests and no tracking. Everything is served by your site.
 
@@ -43,7 +45,7 @@ Point the playbook at a release:
 ```yaml
 ui:
   bundle:
-    url: https://github.com/zoolcoder/zc-supplemental-ui/releases/download/v0.2.0/ui-bundle.zip
+    url: https://github.com/zoolcoder/zc-supplemental-ui/releases/download/v0.2.1/ui-bundle.zip
 ```
 
 Then set the attributes that switch on the parts you want:
@@ -61,6 +63,13 @@ asciidoc:
     page-zc-og-image: https://example.com/card.png  # link previews
 ```
 
+`page-zc-csp` replaces the default Content-Security-Policy, for a site that
+loads anything from another host:
+
+```yaml
+    page-zc-csp: "default-src 'self'; img-src 'self' data: https://img.example.com"
+```
+
 For search, add `@antora/lunr-extension` to `antora.extensions`. List the
 languages of your pages in its `languages` key; the search then shows only
 the hits in the reader's language.
@@ -71,7 +80,7 @@ The Antora extensions and the `zc-pdf` command come from the npm package,
 installed from the same tag:
 
 ```sh
-npm install --save-dev github:zoolcoder/zc-supplemental-ui#v0.2.0 @asciidoctor/tabs
+npm install --save-dev github:zoolcoder/zc-supplemental-ui#v0.2.1 @asciidoctor/tabs
 ```
 
 ```yaml
@@ -95,6 +104,26 @@ path next to the playbook, not as a package in `node_modules`.
   root.
 - `og-image.js` draws a 1200×630 card for each page. It needs an absolute
   `site.url`, and sets `page-zc-og-image` for you.
+
+### Diagrams on a phone
+
+A wide diagram scrolls sideways on a phone. Draw it a second time, top to
+bottom, and give the two the roles `wide` and `narrow`. The narrow one
+replaces the wide one at 640px and below:
+
+```asciidoc
+[.diagram.wide]
+image::pipeline.svg["The pipeline",opts=inline]
+
+ifndef::zc-print[]
+[.diagram.narrow]
+image::pipeline-narrow.svg["The pipeline",opts=inline]
+endif::[]
+```
+
+Set `zc-print: ''` in the attributes of `antora-assembler.yml` so the PDF
+prints the diagram once. Assembler resolves conditionals before the PDF
+converter runs, so `backend-pdf` cannot be used for this.
 
 ### Another language
 
@@ -129,7 +158,7 @@ Use [Antora Assembler](https://docs.antora.org/assembler/latest/) with the
 
 ```sh
 curl -fsSL -o zc-pdf-theme.zip \
-  https://github.com/zoolcoder/zc-supplemental-ui/releases/download/v0.2.0/zc-pdf-theme.zip
+  https://github.com/zoolcoder/zc-supplemental-ui/releases/download/v0.2.1/zc-pdf-theme.zip
 unzip -o zc-pdf-theme.zip -d build/pdf-theme
 ```
 
@@ -146,6 +175,7 @@ asciidoc:
     title-page: ''
     source-highlighter: rouge
     zc-owner: Your name   # shown in the page footer
+    zc-print: ''          # leaves out what only a screen needs
 ```
 
 The command runs in the playbook's folder, so `pdf-themesdir` is relative to

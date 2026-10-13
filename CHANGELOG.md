@@ -4,6 +4,26 @@ All notable changes to zc-supplemental-ui. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## v0.2.1 — 2026-10-13
+
+### Added
+
+- A diagram can be drawn twice: `[.diagram.wide]` for screens and
+  `[.diagram.narrow]`, top to bottom, which replaces it at 640px and below.
+  The PDF prints only the wide one.
+- A Content-Security-Policy and a Referrer-Policy as `<meta>` tags, for hosts
+  such as GitHub Pages that cannot send headers. `page-zc-csp` replaces the
+  default policy.
+- A code block, table or diagram that scrolls sideways takes keyboard focus.
+
+### Fixed
+
+- The theme script is a file, `js/theme.js`, so the policy needs no
+  `'unsafe-inline'` for scripts.
+- The current page in the sidebar has a solid background, so its contrast
+  can be measured.
+- Console prompts and code comments meet WCAG AA contrast in both themes.
+
 ## v0.2.0 — 2026-10-13
 
 ### Added

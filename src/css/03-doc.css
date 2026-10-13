@@ -178,6 +178,13 @@
 .doc .imageblock.diagram{align-items:stretch}
 .doc .imageblock.diagram>.content{padding:18px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,var(--raised),var(--surface));box-shadow:var(--shadow),var(--hl);overflow-x:auto}
 .doc .imageblock.diagram>.content>svg{margin:0 auto;min-width:560px}
+/* a diagram drawn twice, [.diagram.wide] and [.diagram.narrow]: the narrow
+   one, top to bottom, replaces the wide one where the wide one would scroll */
+.doc .imageblock.diagram.narrow{display:none}
+.doc .imageblock.diagram.narrow>.content>svg{min-width:0;max-width:340px;width:100%}
+@media (max-width:640px){.doc .imageblock.diagram.wide{display:none}.doc .imageblock.diagram.narrow{display:flex}}
+/* a box that scrolls sideways takes keyboard focus (zc.js sets tabindex) */
+.doc [data-zc-scroll]:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 
 /* roles for landing pages: [.hero] open block, [.cta] links, [.cards] list */
 .doc .openblock.hero>.content>.paragraph p{font-size:17px;line-height:1.6;color:var(--fg)}

@@ -1,4 +1,9 @@
 <meta charset="utf-8">
+{{!-- GitHub Pages and other static hosts cannot send headers, so the policy
+     travels in the page. Everything is served by the site itself; page-zc-csp
+     replaces the policy for a site that embeds something from elsewhere. --}}
+<meta http-equiv="Content-Security-Policy" content="{{#if page.attributes.zc-csp}}{{page.attributes.zc-csp}}{{else}}default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'{{/if}}">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>{{{detag (or page.title (t "notFound"))}}}{{#with site.title}} · {{this}}{{/with}}</title>

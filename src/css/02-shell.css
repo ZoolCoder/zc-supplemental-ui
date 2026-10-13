@@ -62,7 +62,7 @@ button svg,.btn svg{width:15px;height:15px;flex:none}
 .docnav a svg{width:13px;height:13px;flex:none;color:var(--dim)}
 .docnav a .lbl{flex:1;min-width:0}
 .docnav a:hover{color:var(--fg);background:var(--subtle);text-decoration:none}
-.docnav a.on{color:var(--fg);background:linear-gradient(90deg,var(--acc-sub),color-mix(in srgb,var(--acc-sub) 55%,transparent));border-color:var(--acc-line);box-shadow:var(--nav-glow),var(--hl)}
+.docnav a.on{color:var(--fg);background:var(--acc-sub);border-color:var(--acc-line);box-shadow:var(--nav-glow),var(--hl)}
 .docnav a.on::before{content:"";position:absolute;inset-inline-start:-12px;top:8px;bottom:8px;width:3px;border-start-end-radius:3px;border-end-end-radius:3px;background:var(--acc);box-shadow:var(--acc-glow)}
 .side-foot{margin-top:auto;display:flex;flex-direction:column;gap:12px;padding-top:8px}
 .led{display:flex;align-items:center;gap:9px;padding:6px 8px;font-size:12px;font-weight:500;color:var(--fg);border-radius:9px}

@@ -15,6 +15,9 @@ docs look like one product.
 
 - A sidebar that becomes a drawer on phones, a glass header with search, and
   light, dark and auto themes.
+- Collapsible sidebar groups that open on the current page, and a filter box
+  for a long sidebar.
+- A back-to-top button, and screenshots that open full size on a click.
 - Search for the [Antora Lunr extension](https://gitlab.com/antora/antora-lunr-extension),
   opened with <kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>K</kbd> or <kbd>/</kbd>.
 - A table of contents that follows the reader, breadcrumbs, previous and next
@@ -45,7 +48,7 @@ Point the playbook at a release:
 ```yaml
 ui:
   bundle:
-    url: https://github.com/zoolcoder/zc-supplemental-ui/releases/download/v0.2.1/ui-bundle.zip
+    url: https://github.com/zoolcoder/zc-supplemental-ui/releases/download/v0.3.0/ui-bundle.zip
 ```
 
 Then set the attributes that switch on the parts you want:
@@ -80,7 +83,7 @@ The Antora extensions and the `zc-pdf` command come from the npm package,
 installed from the same tag:
 
 ```sh
-npm install --save-dev github:zoolcoder/zc-supplemental-ui#v0.2.1 @asciidoctor/tabs
+npm install --save-dev github:zoolcoder/zc-supplemental-ui#v0.3.0 @asciidoctor/tabs
 ```
 
 ```yaml
@@ -158,7 +161,7 @@ Use [Antora Assembler](https://docs.antora.org/assembler/latest/) with the
 
 ```sh
 curl -fsSL -o zc-pdf-theme.zip \
-  https://github.com/zoolcoder/zc-supplemental-ui/releases/download/v0.2.1/zc-pdf-theme.zip
+  https://github.com/zoolcoder/zc-supplemental-ui/releases/download/v0.3.0/zc-pdf-theme.zip
 unzip -o zc-pdf-theme.zip -d build/pdf-theme
 ```
 

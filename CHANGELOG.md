@@ -4,6 +4,27 @@ All notable changes to zc-supplemental-ui. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## v0.3.0 — 2026-10-16
+
+### Added
+
+- Collapsible groups in the sidebar. A nav entry with children gets a
+  chevron that folds them; an entry without a link, such as a category, folds
+  on a click of its name. The group holding the current page starts open, and
+  a group the reader opens or closes stays that way for the session.
+- A filter box above the sidebar when it holds more than 12 pages. It keeps
+  the pages whose title matches and opens their groups. <kbd>f</kbd> focuses
+  it; <kbd>Enter</kbd> opens the first match.
+- A back-to-top button after a screen and a half of scrolling.
+- A screenshot shown smaller than its real size opens full size on a click,
+  or on <kbd>Enter</kbd> when focused. Linked images and diagrams are left
+  alone.
+
+### Changed
+
+- Nested pages hang from a thin rail under their parent, so the depth reads
+  at a glance.
+
 ## v0.2.1 — 2026-10-13
 
 ### Added

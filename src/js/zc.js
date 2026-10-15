@@ -84,6 +84,99 @@
   var currentLink = $('.side .on')
   if (currentLink && currentLink.scrollIntoView) currentLink.scrollIntoView({ block: 'center' })
 
+  // ---------------------------------------------------------------- nav groups
+
+  // A page with children is a group the reader can fold. The group holding
+  // the current page starts open; a group the reader opened or closed stays
+  // that way on the next page.
+  var GROUPS = 'zc-nav-groups'
+  var folded = {}
+  try { folded = JSON.parse(sessionStorage.getItem(GROUPS) || '{}') } catch (e) { /* start fresh */ }
+
+  function groupKey (group) {
+    var link = $('.grprow > a', group)
+    return link ? link.getAttribute('href') : ($('.grph', group) || group).textContent.trim()
+  }
+
+  function setGroup (group, open) {
+    var button = $('.grptog', group)
+    var items = $('.grpitems', group)
+    if (!button || !items) return
+    button.setAttribute('aria-expanded', String(open))
+    items.hidden = !open
+  }
+
+  $$('[data-nav-group]').forEach(function (group) {
+    var button = $('.grptog', group)
+    var key = groupKey(group)
+    var holdsCurrent = !!$('.grpitems .on', group)
+    if (key in folded && !holdsCurrent) setGroup(group, folded[key])
+    button.addEventListener('click', function () {
+      var open = button.getAttribute('aria-expanded') !== 'true'
+      setGroup(group, open)
+      folded[key] = open
+      try { sessionStorage.setItem(GROUPS, JSON.stringify(folded)) } catch (e) { /* not remembered */ }
+    })
+    var label = $('.grph', group)
+    if (label) label.addEventListener('click', function () { button.click() })
+  })
+
+  // ---------------------------------------------------------------- nav filter
+
+  // Typing in the box keeps the pages whose title matches, with the groups
+  // that hold them opened. Shown only when the sidebar is long.
+  var filterBox = $('.navfilter')
+  var filterInput = $('#zc-navfilter')
+  var navLinks = $$('.docnav a')
+  var navNone = $('.navnone')
+
+  if (filterBox && filterInput && navLinks.length > 12) {
+    filterBox.hidden = false
+    filterInput.addEventListener('input', function () { filterNav(filterInput.value) })
+    filterInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && filterInput.value) {
+        e.stopPropagation()
+        filterInput.value = ''
+        filterNav('')
+      } else if (e.key === 'Enter') {
+        var first = navLinks.filter(function (a) { return !a.hidden })[0]
+        if (first) first.click()
+      }
+    })
+  }
+
+  function filterNav (query) {
+    var q = query.trim().toLowerCase()
+    var shown = 0
+    navLinks.forEach(function (a) {
+      var hit = !q || a.textContent.toLowerCase().indexOf(q) >= 0
+      a.hidden = !hit
+      if (hit) shown++
+    })
+    $$('[data-nav-group]').reverse().forEach(function (group) {
+      if (!q) {
+        group.hidden = false
+        setGroup(group, !!$('.on', group) || folded[groupKey(group)] === true)
+        return
+      }
+      var any = $$('a', group).some(function (a) { return !a.hidden })
+      group.hidden = !any
+      if (!any) return
+      setGroup(group, true)
+      var head = $('.grprow > a', group)
+      if (head) head.hidden = false
+    })
+    $$('.docnav .navh').forEach(function (h) { h.hidden = !!q })
+    if (navNone) navNone.hidden = shown > 0
+  }
+
+  function focusFilter () {
+    if (!filterInput || filterBox.hidden) return
+    if (shell && window.matchMedia('(max-width: 1000px)').matches) drawer(true)
+    filterInput.focus()
+    filterInput.select()
+  }
+
   // ---------------------------------------------------------------- search
 
   var searchInput = $('#search-input')
@@ -183,6 +276,7 @@
       case '/': e.preventDefault(); focusSearch(); break
       case '?': if (keys && keys.showModal) keys.showModal(); break
       case 't': cycleTheme(); break
+      case 'f': e.preventDefault(); focusFilter(); break
       case 'g': pendingG = Date.now(); break
       // In a right-to-left page the previous page is to the right.
       case 'ArrowLeft': go($(rtl ? 'link[rel=next]' : 'link[rel=prev]')); break
@@ -456,4 +550,53 @@
     $$('.anchor', heading).forEach(function (x) { x.remove() })
     a.setAttribute('aria-label', fill(S.anchor, heading.textContent.trim()))
   })
+
+  // ---------------------------------------------------------------- back to top
+
+  var toTop = $('[data-totop]')
+  if (toTop) {
+    var topShown = false
+    var checkTop = function () {
+      var show = window.scrollY > window.innerHeight * 1.5
+      if (show !== topShown) { topShown = show; toTop.hidden = !show }
+    }
+    window.addEventListener('scroll', checkTop, { passive: true })
+    checkTop()
+    toTop.addEventListener('click', function () {
+      var smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' })
+      var main = $('#main')
+      if (main) main.focus({ preventScroll: true })
+    })
+  }
+
+  // ---------------------------------------------------------------- image zoom
+
+  // A screenshot shown smaller than its real size opens full size on a click.
+  // Linked images and diagrams keep their own behaviour.
+  var zoom = $('#zc-zoom')
+  var zoomImg = zoom && $('img', zoom)
+  if (zoom && zoomImg && zoom.showModal) {
+    $$('.doc .imageblock:not(.diagram) img').forEach(function (img) {
+      if (img.closest('a')) return
+      var mark = function () {
+        var bigger = img.naturalWidth > img.clientWidth + 40
+        img.classList.toggle('zoomable', bigger)
+        if (bigger) { img.tabIndex = 0; img.setAttribute('role', 'button') } else { img.removeAttribute('tabindex'); img.removeAttribute('role') }
+      }
+      if (img.complete) mark(); else img.addEventListener('load', mark)
+      window.addEventListener('resize', function () { clearTimeout(img.zcResize); img.zcResize = setTimeout(mark, 150) })
+      var open = function () {
+        if (!img.classList.contains('zoomable')) return
+        zoomImg.src = img.currentSrc || img.src
+        zoomImg.alt = img.alt
+        zoom.showModal()
+      }
+      img.addEventListener('click', open)
+      img.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open() }
+      })
+    })
+    zoom.addEventListener('close', function () { zoomImg.removeAttribute('src') })
+  }
 })()

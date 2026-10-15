@@ -1,0 +1,1 @@
+<a class="d{{depth}}{{#if (eq item.url @root.page.url)}} on{{/if}}" href="{{#if (eq item.urlType 'internal')}}{{{relativize item.url}}}{{else}}{{{item.url}}}{{/if}}"{{#if (eq item.url @root.page.url)}} aria-current="page"{{/if}}><span class="lbl">{{{item.content}}}</span>{{#if (eq item.urlType 'external')}}{{{icon "external"}}}{{/if}}</a>

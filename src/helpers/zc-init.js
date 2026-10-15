@@ -84,6 +84,12 @@ const STRINGS = {
     updated: 'Last updated',
     copyPage: 'Copy as Markdown',
     markdownTitle: 'View this page as Markdown',
+    toggleGroup: 'Show or hide',
+    filterPages: 'Filter pages',
+    noPages: 'No page matches',
+    backToTop: 'Back to top',
+    image: 'Image',
+    keysFilter: 'Filter the pages in the sidebar',
   },
   ar: {
     skip: 'انتقل إلى المحتوى',
@@ -136,6 +142,12 @@ const STRINGS = {
     updated: 'آخر تحديث',
     copyPage: 'انسخ بصيغة Markdown',
     markdownTitle: 'اعرض هذه الصفحة بصيغة Markdown',
+    toggleGroup: 'أظهر أو أخفِ',
+    filterPages: 'صفِّ الصفحات',
+    noPages: 'لا صفحة مطابقة',
+    backToTop: 'العودة إلى الأعلى',
+    image: 'صورة',
+    keysFilter: 'صفِّ الصفحات في الشريط الجانبي',
   },
 }
 

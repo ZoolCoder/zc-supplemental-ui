@@ -64,6 +64,39 @@ button svg,.btn svg{width:15px;height:15px;flex:none}
 .docnav a:hover{color:var(--fg);background:var(--subtle);text-decoration:none}
 .docnav a.on{color:var(--fg);background:var(--acc-sub);border-color:var(--acc-line);box-shadow:var(--nav-glow),var(--hl)}
 .docnav a.on::before{content:"";position:absolute;inset-inline-start:-12px;top:8px;bottom:8px;width:3px;border-start-end-radius:3px;border-end-end-radius:3px;background:var(--acc);box-shadow:var(--acc-glow)}
+.docnav a[hidden],.docnav .grp[hidden],.docnav .navh[hidden],.navnone[hidden],.grpitems[hidden],.navfilter[hidden]{display:none}
+.grp{display:flex;flex-direction:column;gap:2px}
+.grprow{display:flex;align-items:center;gap:2px;position:relative}
+.grprow>a,.grprow>.grph{flex:1;min-width:0}
+.grph{display:flex;align-items:center;min-height:36px;padding:7px 10px;font-size:13.5px;font-weight:600;color:var(--fg);cursor:pointer;border-radius:9px}
+.grph.d1{padding-inline-start:22px}
+.grph:hover{background:var(--subtle)}
+.grptog{width:30px;height:30px;padding:0;flex:none;display:inline-flex;align-items:center;justify-content:center;background:none;border:1px solid transparent;border-radius:8px;color:var(--dim);box-shadow:none;cursor:pointer}
+.grptog:hover{color:var(--fg);background:var(--subtle)}
+.grptog svg{width:12px;height:12px;transition:transform .18s var(--ease)}
+.grptog[aria-expanded=true] svg{transform:rotate(90deg)}
+[dir=rtl] .grptog[aria-expanded=false] svg{transform:rotate(180deg)}
+.grpitems{display:flex;flex-direction:column;gap:2px;margin-inline-start:14px;padding-inline-start:4px;border-inline-start:1px solid var(--line)}
+.grpitems a.d1,.grpitems .grph.d1{padding-inline-start:10px}
+.grpitems a.d2{padding-inline-start:10px}
+.grpitems a.on::before{inset-inline-start:-17px}
+.navfilter{display:flex;flex:none;align-items:center;gap:8px;height:34px;padding-inline:10px;color:var(--muted);background:var(--field);border:1px solid var(--line);border-radius:9px;box-shadow:var(--hl);transition:border-color .16s var(--ease),box-shadow .16s var(--ease)}
+.navfilter:focus-within{border-color:var(--acc-line);box-shadow:var(--ring)}
+.navfilter svg{width:13px;height:13px;flex:none}
+.navfilter input{flex:1;min-width:0;height:100%;border:0;background:none;color:var(--fg);font:inherit;font-size:13px;outline:none;padding:0}
+.navfilter input::placeholder{color:var(--muted)}
+.navnone{margin:6px 10px;font-size:13px;color:var(--muted)}
+.totop{position:fixed;inset-block-end:20px;inset-inline-end:20px;z-index:20;width:40px;height:40px;border-radius:12px;background:var(--pop);border-color:var(--line);color:var(--fg);box-shadow:var(--pop-shadow);animation:pop .18s var(--ease-in)}
+.totop[hidden]{display:none}
+.totop svg{width:16px;height:16px;transform:rotate(-90deg)}
+.totop:hover{border-color:var(--acc-line);color:var(--acc)}
+.doc img.zoomable{cursor:zoom-in}
+.doc img.zoomable:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+dialog.zoom{max-width:none;max-height:none;width:100vw;height:100vh;margin:0;padding:0;border:0;background:transparent}
+dialog.zoom::backdrop{background:color-mix(in srgb,#000 78%,transparent);backdrop-filter:blur(4px)}
+dialog.zoom form,dialog.zoom .zoomshut{width:100%;height:100%;margin:0}
+.zoomshut{display:flex;align-items:center;justify-content:center;padding:24px;background:none;border:0;box-shadow:none;cursor:zoom-out}
+.zoomshut img{max-width:100%;max-height:100%;width:auto;height:auto;border-radius:12px;box-shadow:var(--pop-shadow)}
 .side-foot{margin-top:auto;display:flex;flex-direction:column;gap:12px;padding-top:8px}
 .led{display:flex;align-items:center;gap:9px;padding:6px 8px;font-size:12px;font-weight:500;color:var(--fg);border-radius:9px}
 a.led:hover{background:var(--subtle);text-decoration:none;color:var(--fg)}

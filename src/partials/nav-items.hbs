@@ -1,10 +1,17 @@
 {{#each items}}
-{{#if ./url}}
-<a class="d{{../depth}}{{#if (eq ./url @root.page.url)}} on{{/if}}" href="{{#if (eq ./urlType 'internal')}}{{{relativize ./url}}}{{else}}{{{./url}}}{{/if}}"{{#if (eq ./url @root.page.url)}} aria-current="page"{{/if}}><span class="lbl">{{{./content}}}</span>{{#if (eq ./urlType 'external')}}{{{icon "external"}}}{{/if}}</a>
+{{#if ./items.length}}
+<div class="grp" data-nav-group>
+<div class="grprow">
+{{#if ./url}}{{> nav-link item=this depth=../depth}}{{else}}<span class="d{{../depth}} grph"><span class="lbl">{{{./content}}}</span></span>{{/if}}
+<button class="grptog" type="button" aria-expanded="{{#if (or (eq ./url @root.page.url) (nav-holds this @root.page.url))}}true{{else}}false{{/if}}" aria-label="{{t "toggleGroup"}} {{detag ./content}}">{{{icon "chevron"}}}</button>
+</div>
+<div class="grpitems"{{#unless (or (eq ./url @root.page.url) (nav-holds this @root.page.url))}} hidden{{/unless}}>
+{{> nav-items items=./items depth=(increment ../depth)}}
+</div>
+</div>
+{{else if ./url}}
+{{> nav-link item=this depth=../depth}}
 {{else if ./content}}
 <p class="navh">{{{./content}}}</p>
-{{/if}}
-{{#if ./items.length}}
-{{> nav-items items=./items depth=(increment ../depth)}}
 {{/if}}
 {{/each}}

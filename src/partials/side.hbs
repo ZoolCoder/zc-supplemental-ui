@@ -4,7 +4,12 @@
     <button class="iconbtn sideclose" type="button" data-drawer-close aria-label="{{t "closeMenu"}}">{{{icon "close"}}}</button>
   </div>
 {{> versions}}
-  <nav class="docnav" aria-label="{{t "pages"}}">
+  <div class="navfilter" hidden>
+    {{{icon "search"}}}
+    <input type="search" id="zc-navfilter" placeholder="{{t "filterPages"}}" aria-label="{{t "filterPages"}}" aria-controls="zc-docnav" autocomplete="off" spellcheck="false">
+  </div>
+  <nav class="docnav" id="zc-docnav" aria-label="{{t "pages"}}">
+  <p class="navnone" role="status" hidden>{{t "noPages"}}</p>
 {{#each page.navigation}}
     {{#if ./content}}<p class="navh">{{{./content}}}</p>{{/if}}
 {{> nav-items items=./items depth=0}}

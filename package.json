@@ -28,7 +28,7 @@
     "turndown-plugin-gfm": "1.0.2"
   },
   "devDependencies": {
-    "@antora/cli": "3.2.1",
+    "@antora/cli": "3.2.2",
     "@antora/lunr-extension": "1.0.0-alpha.13",
     "@antora/pdf-extension": "1.0.1",
     "@antora/site-generator": "3.2.1",

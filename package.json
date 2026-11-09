@@ -31,7 +31,7 @@
     "@antora/cli": "3.2.1",
     "@antora/lunr-extension": "1.0.0-alpha.13",
     "@antora/pdf-extension": "1.0.1",
-    "@antora/site-generator": "3.2.1",
+    "@antora/site-generator": "3.2.2",
     "@highlightjs/cdn-assets": "11.12.0"
   }
 }
